@@ -27,22 +27,23 @@ Force plot includes 2 basic types:
 <table id='intro'>
 <tr><td>
 ```{r,echo=FALSE}
-grpmtx <- matrix(c(11975, 5871, 8916, 2868, 1951, 10048, 2060, 6171, 8010, 16145,
-                   8090, 8045, 1013, 990, 940, 6907), byrow=TRUE, nrow=4)
-grpmtx <- as.data.frame(grpmtx)
-names(grpmtx) <- paste0('Group', 1:4)
-grpmtx$Name <- paste0('Group', 1:4)
+nodes <- cbind(yuNetwork$nodes[,1], NA, yuNetwork$nodes[,2:3],
+               stringsAsFactors=FALSE)
+names(nodes) <- names(yuNetwork$links)
+yu <- rbind(yuNetwork$links, nodes, stringsAsFactors=FALSE)
 
-echartr(grpmtx, Name, c(Group1, Group2, Group3, Group4), type='force') %>% 
-  setTitle('Test Data','Force with ribbon') %>%
-  setTheme('macarons', width=400, height=300)
+echartr(yu, c(source, target), weight, relation, type='force') %>% 
+    setTitle("Yu Family of Shaoxing") %>% setTheme(palette=c(
+        'tan3','green3','green2','lawngreen','olivedrab1'), 
+        width=400, height=300)
 ```
 </td>
 <td>
 ```{r,echo=FALSE}
-echartr(grpmtx, Name, c(Group1, Group2, Group3, Group4), type='force_line') %>% 
-  setTitle('Test Data','Force with ribbon') %>%
-  setTheme('macarons', width=400, height=300)
+echartr(yu, c(source, target), weight, relation, type='force_line') %>% 
+    setTitle("Yu Family of Shaoxing") %>% setTheme(palette=c(
+        'tan3','green3','green2','lawngreen','olivedrab1'), 
+        width=400, height=300)
 ```
 </td></tr>
 </table>
@@ -104,14 +105,6 @@ Matrix mode can be transformed to node/link mode as well. Matrix[i, j] represent
 
 ```{r}
 str(yuNetwork)
-# nodes <- read.table(system.file('nodes.csv', package='recharts'), sep=',', 
-#                     quote="\"", header=TRUE, fileEncoding='UTF-8', 
-#                     stringsAsFactors=FALSE)
-# links <- read.table(system.file('links.csv', package='recharts'), sep=',', 
-#                     quote="\"", header=TRUE, fileEncoding='UTF-8',
-#                     stringsAsFactors=FALSE)
-# str(nodes)
-# str(links)
 ```
 
 The yuNetwork dataset contains a nodes data.frame and a links data.frame. You can then combine them into one.
@@ -130,13 +123,6 @@ nodes <- cbind(yuNetwork$nodes[,1], NA, yuNetwork$nodes[,2:3],
                stringsAsFactors=FALSE)
 names(nodes) <- names(yuNetwork$links)
 yu <- rbind(yuNetwork$links, nodes, stringsAsFactors=FALSE)
-# nodes <- cbind(nodes[,'name'], NA, nodes[,c('series', 'value')], 
-#                stringsAsFactors=FALSE)
-# links <- links[,c('source', 'target', 'relation', 'weight')]
-# names(nodes) <- names(links)
-# yu <- rbind(links, nodes, stringsAsFactors=FALSE)
-# tmcn::getCharset()
-# str(yu)
 ```
 
 
@@ -147,10 +133,8 @@ yu <- rbind(yuNetwork$links, nodes, stringsAsFactors=FALSE)
 Set `type` 'force'.
 
 ```{r}
-#Sys.setlocale('LC_CTYPE', 'Chs')
-#options(encoding='utf8')
 echartr(yu, c(source, target), weight, relation, type='force') %>% 
-    setTitle("Yu Family of Shaoxing 绍兴俞氏") %>% setTheme(palette=c(
+    setTitle("Yu Family of Shaoxing") %>% setTheme(palette=c(
         'tan3','green3','green2','lawngreen','olivedrab1'))
 ```
 
@@ -179,9 +163,9 @@ echartr(yu, c(source, target), weight, relation, type='force_line') %>%
 Let's use `year` columns as timeline.
 
 ```{r}
-echartr(deutsch[deutsch$year==2014,], c(club, player), weight, role, 
+echartr(deutsch, c(club, player), weight, role, z=year,
         type='force', sub='arrow') %>% 
-  setTitle('Club Orientation of Deutsch Soccer Team (2014)')
+  setTitle('Club Orientation of Deutsch Soccer Team')
 ```
 
 # Futher Setup

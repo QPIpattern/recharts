@@ -181,7 +181,8 @@ Let's use `year` columns as timeline.
 ```{r}
 echartr(deutsch, c(club, player), weight, role, z=year, type='chord', 
         sub='asc + descsub + rotatelab') %>% 
-  setTitle('Club Orientation of Deutsch Soccer Team')
+    setTimeline(show=FALSE, autoPlay=TRUE) %>%
+    setTitle('Club Orientation of Deutsch Soccer Team')
 ```
 
 # Futher Setup

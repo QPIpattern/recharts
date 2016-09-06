@@ -78,6 +78,7 @@ echartr(events, c(time, event), c(value, weight), series, type='eventRiver') %>%
     setGrid(y2=80)
 ```
 
+If you provide more details about each event slice (title, link and image) in `x`, the chart will be more informative.
 
 # Futher Setup
 
