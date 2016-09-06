@@ -136,13 +136,44 @@ echartr(grpmtx, Name, c(Group1, Group2, Group3, Group4),
 
 ### Chord without Ribbon
 
-Set `type` 'chord'. If the data structure does not include dual-direction relationship, no matter whether you assign `subtype` 'ribbon', ribbon will not display.
+#### One-direction Relationship
+
+Set `type` 'chord'. If the data structure does not include dual-direction relationship, no matter whether you assign `subtype` 'ribbon', ribbon will not display properly.
 
 ```{r}
 echartr(deutsch[deutsch$year==2014,], c(club, player), weight, role, type='chord', 
         sub='asc + descsub + rotatelab') %>% 
   setTitle('Club Orientation of Deutsch Soccer Team (2014)')
 ```
+
+#### Dual-direction Relationship
+
+If you do want to display a chord with ribbon, you have to revise the data with dual-diretion relationship. 
+
+By now, `deutsch14` only has one-direction relationship, which means, it only defines Gotze->Bayern, but not Bayern->Gotze.
+
+```{r}
+knitr::kable(with(deutsch[deutsch$year==2014,], table(player, club)))
+```
+
+What we need to do is duplicate the source and target columns to build a matrix.
+
+```{r}
+deutsch14 <- deutsch[deutsch$year==2014,]
+deutsch14 <- rbind(deutsch14, deutsch14)
+deutsch14[14:26, c('player', 'club')] <- recharts:::exchange(
+    deutsch14[14:26, 'player'], deutsch14[14:26, 'club'])
+knitr::kable(with(deutsch14, table(player, club)))
+```
+
+In this way set `subtype` 'ribbon' and we get a chord with ribbon.
+
+```{r}
+echartr(deutsch14, c(club, player), weight, role, type='chord', 
+        sub='asc + descsub + rotatelab + ribbon') %>% 
+  setTitle('Club Orientation of Deutsch Soccer Team (2014)')
+```
+
 
 ### Chord with Timeline
 

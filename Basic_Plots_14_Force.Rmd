@@ -2,6 +2,7 @@
 title: "Basic Plots 14 - Force Chart"
 output: 
   html_document: 
+    keep_md: yes
     number_sections: yes
     toc: yes
     toc_depth: 4
@@ -102,11 +103,15 @@ Matrix mode can be transformed to node/link mode as well. Matrix[i, j] represent
 ### Node/link Mode
 
 ```{r}
-#str(yuNetwork)
-nodes <- read.csv(system.file('nodes.csv', package='recharts'), encoding='CP936')
-links <- read.csv(system.file('links.csv', package='recharts'), encoding='CP936')
-str(nodes)
-str(links)
+str(yuNetwork)
+# nodes <- read.table(system.file('nodes.csv', package='recharts'), sep=',', 
+#                     quote="\"", header=TRUE, fileEncoding='UTF-8', 
+#                     stringsAsFactors=FALSE)
+# links <- read.table(system.file('links.csv', package='recharts'), sep=',', 
+#                     quote="\"", header=TRUE, fileEncoding='UTF-8',
+#                     stringsAsFactors=FALSE)
+# str(nodes)
+# str(links)
 ```
 
 The yuNetwork dataset contains a nodes data.frame and a links data.frame. You can then combine them into one.
@@ -121,17 +126,17 @@ The yuNetwork dataset contains a nodes data.frame and a links data.frame. You ca
     - `weight`: the importance sorce of the connections.
 
 ```{r}
-# nodes <- cbind(yuNetwork$nodes[,1], NA, yuNetwork$nodes[,2:3], 
-#                stringsAsFactors=FALSE)
-# names(nodes) <- names(yuNetwork$links)
-# yu <- rbind(yuNetwork$links, nodes, stringsAsFactors=FALSE)
-nodes <- cbind(nodes[,'name'], NA, nodes[,c('series', 'value')], 
+nodes <- cbind(yuNetwork$nodes[,1], NA, yuNetwork$nodes[,2:3],
                stringsAsFactors=FALSE)
-links <- links[,c('source', 'target', 'relation', 'weight')]
-names(nodes) <- names(links)
-yu <- rbind(links, nodes, stringsAsFactors=FALSE)
-yu[, 1:3] <- sapply(1:3, function(col) tmcn::toUTF8(as.character(yu[,col])))
-str(yu)
+names(nodes) <- names(yuNetwork$links)
+yu <- rbind(yuNetwork$links, nodes, stringsAsFactors=FALSE)
+# nodes <- cbind(nodes[,'name'], NA, nodes[,c('series', 'value')], 
+#                stringsAsFactors=FALSE)
+# links <- links[,c('source', 'target', 'relation', 'weight')]
+# names(nodes) <- names(links)
+# yu <- rbind(links, nodes, stringsAsFactors=FALSE)
+# tmcn::getCharset()
+# str(yu)
 ```
 
 
@@ -143,9 +148,9 @@ Set `type` 'force'.
 
 ```{r}
 #Sys.setlocale('LC_CTYPE', 'Chs')
-options(encoding='native.enc')
+#options(encoding='utf8')
 echartr(yu, c(source, target), weight, relation, type='force') %>% 
-    setTitle("Yu Family of Shaoxing") %>% setTheme(palette=c(
+    setTitle("Yu Family of Shaoxing 绍兴俞氏") %>% setTheme(palette=c(
         'tan3','green3','green2','lawngreen','olivedrab1'))
 ```
 
