@@ -31,7 +31,8 @@ cars$model <- rownames(cars)
 cars <- data.table::melt(cars, id.vars='model')
 names(cars) <- c('model', 'indicator', 'Parameter')
 echartr(cars, indicator, Parameter, model, type='radar') %>%
-        setTitle('Merc 450SE  vs  450SL  vs  450SLC')
+        setTitle('Merc 450SE  vs  450SL  vs  450SLC') %>% 
+    setTheme('infographic', width=400, height=300)
 ```
 </td>
 <td>
@@ -137,6 +138,8 @@ carstat$am <- factor(carstat$am, labels=c('A', 'M'))
 fullData <- data.frame(expand.grid(levels(carstat$indicator),
             levels(carstat$am), unique(carstat$carb)))
 carstat <- merge(fullData, carstat, all.x=TRUE)
+carstat$carb <- as.factor(carstat$carb)
+carstat$gear <- as.factor(carstat$gear)
 str(carstat)
 ```
 

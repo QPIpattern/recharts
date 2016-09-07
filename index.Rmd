@@ -26,7 +26,7 @@ install_github("madlogos/recharts")
         1. [Bar/Column Chart](Basic_Plots_02_Bar.html)
         1. [Line/Area Chart](Basic_Plots_03_Line.html)
         1. [Candlestick/K Chart](Basic_Plots_04_K.html)
-        1. [River Event Chart](Basic_Plots_05_eventRiver.html)
+        1. [Event River Chart](Basic_Plots_05_eventRiver.html)
     1. Polar Coordinate System
         1. [Pie/Ring/Rose Chart](Basic_Plots_11_Pie.html)
         1. [Funnel/Pyramid Chart](Basic_Plots_12_Funnel.html)

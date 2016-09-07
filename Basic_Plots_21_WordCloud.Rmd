@@ -113,16 +113,10 @@ echartr(hotword, Keyword, Freq, type='wordCloud') %>%
 
 ## Color by Series
 
-We want to group the hot words. Let's assign a `series` variable.
+We want to group the hot words. Let's assign a `series` variable 'Trend'. The 'rise' series and 'fall' series are colored differently.
 
 ```{r}
 echartr(hotword, Keyword, Freq, Trend, type='wordCloud') %>% 
-    setTitle('Baidu Hot Word Top30 (realtime)', as.character(Sys.time()))
-```
-
-Then run the command.
-```{r}
-echartr(hotword, Keyword, Freq, type='wordCloud') %>% 
     setTitle('Baidu Hot Word Top30 (realtime)', as.character(Sys.time()))
 ```
 
