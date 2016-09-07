@@ -22,18 +22,21 @@ WordCloud has only 1 type: wordCloud
 <table id='intro'>
 <tr><td>
 ```{r,echo=FALSE}
-getBaiduHot <- function(url, top=30, HTMLencoding='UTF-8'){
-    baiduhot <- iconv(paste0(readLines(url), collapse=""), from=HTMLencoding)
-    hotword <- gsub(".+?<a class=\"list-title\"[^>]+?>([^<>]+?)</a>.+?<span class=\"icon-(rise|fair|fall)\">(\\d+?)</span>.+?","\\1\t\\3\t", baiduhot)
+getBaiduHot <- function(url, top=30, HTMLencoding='GB2312'){
+    baiduhot <- paste0(readLines(url), collapse="")
+    charset <- gsub('^.+charset=([[:alnum:]-]+?)[^[:alnum:]-].+$', "\\1", baiduhot)
+    if (!is.null(charset)) HTMLencoding <- charset
+    baiduhot <- iconv(baiduhot, from=HTMLencoding)
+    hotword <- gsub(".+?<a class=\"list-title\"[^>]+?>([^<>]+?)</a>.+?<span class=\"icon-(rise|fair|fall)\">(\\d+?)</span>.+?","\\1\t\\3\t\\2\t", baiduhot)
     hotword <- enc2native(gsub("^(.+?)\t{4,}.+$","\\1",hotword))
-    hotword <- t(matrix(unlist(strsplit(hotword,"\t")),nrow=2))
+    hotword <- t(matrix(unlist(strsplit(hotword,"\t")), nrow=3))
     hotword <- as.data.frame(hotword, stringsAsFactors=FALSE)
-    names(hotword) <- c("Keyword", "Freq")
+    names(hotword) <- c("Keyword", "Freq", "Trend")
     hotword$Freq <- as.numeric(hotword$Freq)
     hotword <- hotword[order(hotword$Freq, decreasing=TRUE),]
     return(hotword[1:top,])
 }
-hotword <- getBaiduHot("http://top.baidu.com/buzz?b=1", HTMLencoding='GB2312')
+hotword <- getBaiduHot("http://top.baidu.com/buzz?b=1")
 
 echartr(hotword[1:30,], Keyword, Freq, type='wordCloud') %>% 
     setTheme('infographic', width=400, height=300)
@@ -46,7 +49,7 @@ The keys are:
 
 - character `x` represents the words
 - numeric `y` represents the frequency of the words
-- wordCloud does not support `series`
+- `series` is not linked with legend, but linked with colors
 
 # Function Call
 
@@ -63,6 +66,8 @@ echartr(data, x, y, <z>, <type>)
 +--------+--------------------------------------------------------------------+
 | **y**  | numeric dependent variable. Only the first four ones are accepted which are arranged in the order of 'open', 'close', 'low', 'high'. |
 +--------+--------------------------------------------------------------------+
+| series | data series variable which will be coerced to factors. Only the first one is accepted if multiple variables are provided. |
++---------+--------------------------------------------------------------------+
 |  z     | timeline variable which will be coerced to factors. Only the first one is accepted if multiple variables are provided. |
 +--------+--------------------------------------------------------------------+
 | type   | 'wordCloud' |
@@ -75,27 +80,50 @@ echartr(data, x, y, <z>, <type>)
 
 Fetch the Baidu buzz hotword web page and parse it into a data.frame Keyword and Freq.
 
+For this purpose, we composed a function `getBaiduHot` to parse the _Baidu Hot Word Trend_ web page.
+
 ```{r}
-getBaiduHot <- function(url, top=30, HTMLencoding='UTF-8'){
-    baiduhot <- iconv(paste0(readLines(url), collapse=""), from=HTMLencoding)
-    hotword <- gsub(".+?<a class=\"list-title\"[^>]+?>([^<>]+?)</a>.+?<span class=\"icon-(rise|fair|fall)\">(\\d+?)</span>.+?","\\1\t\\3\t", baiduhot)
-    hotword <- enc2native(gsub("^(.+?)\t{4,}.+$","\\1",hotword))
-    hotword <- t(matrix(unlist(strsplit(hotword,"\t")),nrow=2))
+getBaiduHot <- function(url, top=30, HTMLencoding='GB2312'){
+    baiduhot <- paste0(readLines(url), collapse="")
+    charset <- gsub('^.+charset=([[:alnum:]-]+?)[^[:alnum:]-].+$', "\\1", 
+                    baiduhot)
+    if (!is.null(charset)) HTMLencoding <- charset
+    baiduhot <- iconv(baiduhot, from=HTMLencoding)
+    hotword <- gsub(".+?<a class=\"list-title\"[^>]+?>([^<>]+?)</a>.+?<span class=\"icon-(rise|fair|fall)\">(\\d+?)</span>.+?","\\1\t\\3\t\\2\t", baiduhot)
+    hotword <- enc2native(gsub("^(.+?)\t{4,}.+$","\\1", hotword))
+    hotword <- t(matrix(unlist(strsplit(hotword,"\t")), nrow=3))
     hotword <- as.data.frame(hotword, stringsAsFactors=FALSE)
-    names(hotword) <- c("Keyword", "Freq")
+    names(hotword) <- c("Keyword", "Freq", "Trend")
     hotword$Freq <- as.numeric(hotword$Freq)
     hotword <- hotword[order(hotword$Freq, decreasing=TRUE),]
     return(hotword[1:top,])
 }
-baiduhot <- getBaiduHot("http://top.baidu.com/buzz?b=1", HTMLencoding='GB2312')
+baiduhot <- getBaiduHot("http://top.baidu.com/buzz?b=1")
 knitr::kable(baiduhot)
 ```
 
 ## Basic Plot
 
+Only provide `x` and `y`.
+
 ```{r}
 echartr(hotword, Keyword, Freq, type='wordCloud') %>% 
-    setTitle('Baidu Hot Word Top30 (realtime)', Sys.time())
+    setTitle('Baidu Hot Word Top30 (realtime)', as.character(Sys.time()))
+```
+
+## Color by Series
+
+We want to group the hot words. Let's assign a `series` variable.
+
+```{r}
+echartr(hotword, Keyword, Freq, Trend, type='wordCloud') %>% 
+    setTitle('Baidu Hot Word Top30 (realtime)', as.character(Sys.time()))
+```
+
+Then run the command.
+```{r}
+echartr(hotword, Keyword, Freq, type='wordCloud') %>% 
+    setTitle('Baidu Hot Word Top30 (realtime)', as.character(Sys.time()))
 ```
 
 ## With Timeline
@@ -106,11 +134,9 @@ First, get the other two web pages and rbind the datasets.
 
 ```{r}
 hotword$z <- 'Realtime'
-hotword1 <- getBaiduHot("http://top.baidu.com/buzz?b=341&fr=topbuzz_b1", 
-                        HTMLencoding='GB2312')
+hotword1 <- getBaiduHot("http://top.baidu.com/buzz?b=341&fr=topbuzz_b1")
 hotword1$z <- 'Today'
-hotword2 <- getBaiduHot("http://top.baidu.com/buzz?b=42&c=513&fr=topbuzz_b341", 
-                        HTMLencoding='GB2312')
+hotword2 <- getBaiduHot("http://top.baidu.com/buzz?b=42&c=513&fr=topbuzz_b341")
 hotword2$z <- '7-days'
 hotword <- do.call('rbind', list(hotword, hotword1, hotword2))
 hotword$z <- factor(hotword$z, levels=c('Realtime', 'Today', '7-days'))
