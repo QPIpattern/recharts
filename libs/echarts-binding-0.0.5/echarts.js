@@ -1,10 +1,3 @@
-//require.config ({
-//    paths:{
-//        echarts: "http://echarts.baidu.com/echarts2/build/dist",
-//        ethemes: "http://echarts.baidu.com/echarts2/doc/example/theme"
-//    }
-//});
-
 //function _getTheme(theme){
 //    var myTheme;
 //    require(["echarts", "ethemes" + theme], function(theme){ myTheme = theme;});
@@ -21,13 +14,26 @@ HTMLWidgets.widget({
 
 
   renderValue: function(el, x, instance) {
+    if (typeof x.BMap != 'undefined') {  //BMap: give up...
+        var BMapExt = new BMapExtension(x.ElementId, BMap, require('echarts'));
+        var Bmap = BMapExt.getMap();
+        //Bmap.centerAndZoom(Bmap.Point(startPoint.x, startPoint.y), 5);
+        Bmap.enableScrollWheelZoom(true);
+        var BmapContainer = BMapExt.getEchartsContainer();
+        instance = BMapExt.initEcharts(BmapContainer);
+    }
+    if (typeof x.geoJSON != 'undefined') {
+        require('echarts/ext/params').params.newMap = {
+            getGeoJson: function (callback) {
+                $.getJSON(x.geoJSON, callback);
+            }
+        };
+    }
     var theme = 'default';
-    if (typeof(x.theme) != 'undefined'){ theme = x.theme; }
-
-    if (theme === "default" || theme === "macarons" ||
-       theme === "infographic"){
+    if (typeof(x.theme) != 'undefined') { theme = x.theme; }
+    if (theme === "default" || theme === "macarons" || theme === "infographic") {
         instance.setTheme(theme);
-    }else{
+    } else {
         if (typeof theme == "object") {instance.setTheme(theme);}
         if (theme == 'blue') {instance.setTheme(blueTheme);}
         if (theme == 'dark') {instance.setTheme(darkTheme);}

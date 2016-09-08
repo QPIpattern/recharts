@@ -151,7 +151,7 @@ Then you can configure the widgets, add markLines and/or markPoints, fortify the
 ## `setTheme`
 
 ```{r}
-g %>% setTheme('dark', palette='tableau20')
+g %>% setTheme('dark', palette='manyeyes')
 ```
 
 You can refer to related functions to play around on your own.

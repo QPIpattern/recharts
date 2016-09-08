@@ -129,5 +129,23 @@ Bubble chart with timeline, multiple series are similar to ordinary scatter plot
 
 Then you can configure the widgets, add markLines and/or markPoints, fortify the chart.
 
+## `addMarkLine` And `addMarkPoint`
+
+```{r}
+lm <- with(iris, lm(Petal.Width~Sepal.Width))
+pred <- predict(lm, data.frame(Sepal.Width=c(2, 4.5)))
+
+echartr(iris, Sepal.Width, Petal.Width, Species) %>%
+    addML(series=1, data=data.frame(name1='Max', type='max')) %>%
+    addML(series=2, data=data.frame(name1='Mean', type='average')) %>%
+    addML(series=3, data=data.frame(name1='Min', type='min')) %>%
+    addMP(series=2, data=data.frame(name='Max', type='max')) %>%
+    addML(series='Linear Reg', data=data.frame(
+        name1='Reg', value=lm$coefficients[2], 
+        xAxis1=2, yAxis1=pred[1], xAxis2=4.5, yAxis2=pred[2]))
+```
+
+---------------
+
 You can refer to related functions to play around on your own.
 

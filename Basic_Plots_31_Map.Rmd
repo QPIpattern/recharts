@@ -354,11 +354,90 @@ Although `recharts` can recognize most of the cities, there still might be point
 g %>% addGeoCoord(chinapm25[,c('name', 'lng', 'lat')]) 
 ```
 
+## `addMarkLine` And `addMarkPoint`
+
+In addition to the `addMarkLine` example, we `addMarkPOint` to yield the [Fictious Baidu Migration](http://echarts.baidu.com/echarts2/doc/example/map11.html) example.
+
+```{r}
+route <- flight$route
+names(route) <- c('name1', 'name2')
+coord <- flight$coord
+target <- data.frame(
+    name1=c(rep('北京', 10), rep('上海', 10), rep('广州', 10)),
+    name2=c(
+        "上海","广州","大连","南宁","南昌","拉萨","长春","包头","重庆","常州",
+        "包头","昆明","广州","郑州","长春","重庆","长沙","北京","丹东","大连",
+        "福州","太原","长春","重庆","西安","成都","常州","北京","北海","海口"),
+    value=c(95,90,80,70,60,50,40,30,20,10,95,90,80,70,60,50,40,30,20,10,95,90,
+            80,70,60,50,40,30,20,10))
+target2 <- target
+names(target2) <- c("group", 'name', 'value')
+
+## apply addGeoCoord, and add markLines without values
+g <- echartr(NULL, type='map_china') %>% addGeoCoord(coord) %>%
+    addML(series=1, data=route, symbol=c('none', 'circle'), symbolSize=1, 
+          smooth=TRUE, itemStyle=list(normal=list(
+              color='#fff', borderWidth=1, borderColor='rgba(30,144,255,0.5)')))
+
+## by now, we have to manually edit the core chart style. 
+## Will be replaced by core chart editing functions
+g$x$series[[1]]$itemStyle$normal <- list(
+    borderColor='rgba(100,149,237,1)', borderWidth=0.5, areaStyle=list(
+        color='#1b1b1b'))
+g$x$series[[1]]$hoverable <- FALSE
+g
+
+## add markLines with values
+line.effect <- list(
+    show=TRUE, scaleSize=1, period=30, color='#fff', shadowBlur=10)
+line.style <- list(normal=list(
+    borderWidth=1, lineStyle=list(type='solid', shadowBlur=10)))
+g1 <- g %>% 
+    addML(series='北京Top10', data=target[target$name1=='北京',], 
+          smooth=TRUE, effect=line.effect, itemStyle=line.style) %>%
+    addML(series='上海Top10', data=target[target$name1=='上海',], 
+          smooth=TRUE, effect=line.effect, itemStyle=line.style) %>% 
+    addML(series='广州Top10', data=target[target$name1=='广州',], 
+          smooth=TRUE, effect=line.effect, itemStyle=line.style)
+g1
+
+## add markPoints
+## series better be 2, 3, 4 rather than the series names
+jsSymbolSize <- JS('function (v) {return 10+v/10;}')
+mp.style <- list(normal=list(label=list(show=FALSE)), 
+                 emphasis=list(label=list(position='top')))
+g2 <- g1 %>%
+    addMP(series=2, data=target2[target2$group=='北京', 2:3],
+          effect=list(show=TRUE), symbolSize=jsSymbolSize, 
+          itmeStyle=mp.style) %>%
+    addMP(series=3, data=target2[target2$group=='上海', 2:3],
+          effect=list(show=TRUE), symbolSize=jsSymbolSize, 
+          itmeStyle=mp.style) %>%
+    addMP(series=4, data=target2[target2$group=='广州', 2:3],
+          effect=list(show=TRUE), symbolSize=jsSymbolSize, 
+          itmeStyle=mp.style)
+g2
+
+## setDataRange
+g3 <- g2 %>%
+    setDataRange(
+        color=c('#ff3333', 'orange', 'yellow','limegreen','aquamarine'),
+        valueRange=c(0, 100), textStyle=list(color='#fff'),
+        splitNumber=0)
+
+## setTheme
+g3 <- g3 %>% setLegend(pos=10, selected='上海Top10', textStyle=list(color='#fff')) %>%
+    setTheme(palette=c('gold','aquamarine','limegreen'), bgColor='#1b1b1b') %>%
+    setToolbox(pos=3)
+g3
+```
+
 ## Add/Override heatMap
 
 Let's make up a fictious heatmap dataset. The dataset must be comprised of `lng`, `lat` and `heat value`.
+
 ```{r}
-heatmap <- sapply(1:10, function(i){
+heatmap <- sapply(1:15, function(i){
     x <- 100 + runif(1, 0, 1) * 16
     y <- 24 + runif(1, 0, 1) * 12
     lapply(0:floor(50 * abs(rnorm(1))), function(j){
@@ -370,9 +449,11 @@ str(heatmap)
 ```
 
 Then append/modify the heatmap to a base map using `addHeatmap` / `overrideHeatmap`.
+
 ```{r}
 echartr(NULL, type="map_china") %>% addHeatmap(data=heatmap)
 ```
+
 ------
 
 You can refer to related functions to play around on your own.
