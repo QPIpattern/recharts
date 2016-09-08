@@ -36,7 +36,7 @@ install_github("madlogos/recharts")
         1. [Gauge Chart](Basic_Plots_16_Gauge.html)
     1. Other Plots
         - Mono-coordinate System
-        1. [Word Cloud](Basic_Plots_21_Wordcloud.html)
+        1. [Word Cloud](Basic_Plots_21_WordCloud.html)
         1. [Venn Chart](Basic_Plots_22_Venn.html)
         - Multi-coordinates System
         1. [Map](Basic_Plots_31_Map.html)

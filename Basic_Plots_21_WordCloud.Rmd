@@ -98,8 +98,8 @@ getBaiduHot <- function(url, top=30, HTMLencoding='GB2312'){
     hotword <- hotword[order(hotword$Freq, decreasing=TRUE),]
     return(hotword[1:top,])
 }
-baiduhot <- getBaiduHot("http://top.baidu.com/buzz?b=1")
-knitr::kable(baiduhot)
+hotword <- getBaiduHot("http://top.baidu.com/buzz?b=1")
+knitr::kable(hotword)
 ```
 
 ## Basic Plot
@@ -139,13 +139,20 @@ hotword$z <- factor(hotword$z, levels=c('Realtime', 'Today', '7-days'))
 Then come up with the chart.
 
 ```{r}
-echartr(hotword, Keyword, Freq, z=z, type='wordCloud') %>% 
+g <- echartr(hotword, Keyword, Freq, z=z, type='wordCloud') %>% 
     setTitle('Baidu Hot Word Top30')
+g
 ```
 
 # Futher Setup
 
 Then you can configure the widgets, add markLines and/or markPoints, fortify the chart.
+
+## `setTheme`
+
+```{r}
+g %>% setTheme('dark', palette='tableau20')
+```
 
 You can refer to related functions to play around on your own.
 

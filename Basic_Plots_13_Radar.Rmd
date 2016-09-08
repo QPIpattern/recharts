@@ -124,7 +124,7 @@ echartr(cars, indicator, Parameter, z=model, type='radar') %>%
         setTitle('Merc 450SE  vs  450SL  vs  450SLC')
 ```
 
-When it comes to timeline, you should pay special attention. In order to make timeline work properly, you need an expand.grid dataset to cover all the combination of x, series and `z` levels.
+When it comes to timeline, you should pay special attention. In order to make timeline work properly, you need an expand.grid dataset to cover all the combinations of x, series and `z` levels.
 
 ```{r}
 carstat = data.table::dcast(data.table::data.table(mtcars),
