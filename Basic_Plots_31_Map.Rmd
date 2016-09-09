@@ -348,10 +348,28 @@ g
 
 ### `addGeoCoord`
 
+#### Pre-installed geoCoord dataset
+
 Although `recharts` can recognize most of the cities, there still might be points missing coordinates. Again, we need to define the geoCoord using `addGeoCoord`.
 
 ```{r}
-g %>% addGeoCoord(chinapm25[,c('name', 'lng', 'lat')]) 
+g %>% addGeoCoord(chinapm25[,c('name', 'lng', 'lat')]) %>% 
+    setTitle('PM2.5 in China Cities', 'Fictious Data')
+```
+
+#### Query the Coordinates
+
+What if I don't know the coordinates of the places? You need `geocode` (forked from <github.com/caijun/geoChina>), which queries info from Google (so first you should be able to visit Google) or Baidu (in this way you need to provide api key). 
+
+```{r}
+coor <- geocode(c('北京', '上海'))
+coor
+```
+
+These are coordinates under WGS-84 system. If you want to apply them in Echarts, you need to convert them to BD-09 system. You can use `convWGS2BD` function to do that.
+
+```{r}
+convWGS2BD(coor)
 ```
 
 ## `addMarkLine` And `addMarkPoint`
@@ -372,6 +390,7 @@ target <- data.frame(
             80,70,60,50,40,30,20,10))
 target2 <- target
 names(target2) <- c("group", 'name', 'value')
+target2$series <- paste0(target2$group, 'Top10')  # series column mapping series of addML/addMP
 
 ## apply addGeoCoord, and add markLines without values
 g <- echartr(NULL, type='map_china') %>% addGeoCoord(coord) %>%
@@ -393,11 +412,7 @@ line.effect <- list(
 line.style <- list(normal=list(
     borderWidth=1, lineStyle=list(type='solid', shadowBlur=10)))
 g1 <- g %>% 
-    addML(series='北京Top10', data=target[target$name1=='北京',], 
-          smooth=TRUE, effect=line.effect, itemStyle=line.style) %>%
-    addML(series='上海Top10', data=target[target$name1=='上海',], 
-          smooth=TRUE, effect=line.effect, itemStyle=line.style) %>% 
-    addML(series='广州Top10', data=target[target$name1=='广州',], 
+    addML(series=c('北京Top10', '上海Top10', '广州Top10'), data=target, 
           smooth=TRUE, effect=line.effect, itemStyle=line.style)
 g1
 
@@ -407,15 +422,9 @@ jsSymbolSize <- JS('function (v) {return 10+v/10;}')
 mp.style <- list(normal=list(label=list(show=FALSE)), 
                  emphasis=list(label=list(position='top')))
 g2 <- g1 %>%
-    addMP(series=2, data=target2[target2$group=='北京', 2:3],
+    addMP(series=2:4, data=target2,
           effect=list(show=TRUE), symbolSize=jsSymbolSize, 
-          itmeStyle=mp.style) %>%
-    addMP(series=3, data=target2[target2$group=='上海', 2:3],
-          effect=list(show=TRUE), symbolSize=jsSymbolSize, 
-          itmeStyle=mp.style) %>%
-    addMP(series=4, data=target2[target2$group=='广州', 2:3],
-          effect=list(show=TRUE), symbolSize=jsSymbolSize, 
-          itmeStyle=mp.style)
+          itmeStyle=mp.style) 
 g2
 
 ## setDataRange
@@ -428,7 +437,9 @@ g3 <- g2 %>%
 ## setTheme
 g3 <- g3 %>% setLegend(pos=10, selected='上海Top10', textStyle=list(color='#fff')) %>%
     setTheme(palette=c('gold','aquamarine','limegreen'), bgColor='#1b1b1b') %>%
-    setToolbox(pos=3)
+    setToolbox(pos=3) %>% 
+    setTitle('Baidu Migration', 'Fictious Data', pos=12, 
+             textStyle=list(color='white'))
 g3
 ```
 
