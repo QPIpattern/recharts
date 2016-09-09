@@ -22,28 +22,29 @@ install_github("madlogos/recharts")
 # Knowledge Map of the Guidance
 
 1. Base Plots
-    1. Cartesian Coordinate System
-        1. [Scatter/Bubble Plot](Basic_Plots_01_Scatterplot.html)
-        1. [Bar/Column Chart](Basic_Plots_02_Bar.html)
-        1. [Line/Area Chart](Basic_Plots_03_Line.html)
-        1. [Candlestick/K Chart](Basic_Plots_04_K.html)
-        1. [Event River Chart](Basic_Plots_05_eventRiver.html)
-    1. Polar Coordinate System
-        1. [Pie/Ring/Rose Chart](Basic_Plots_11_Pie.html)
-        1. [Funnel/Pyramid Chart](Basic_Plots_12_Funnel.html)
-        1. [Radar Chart](Basic_Plots_13_Radar.html)
-        1. [Force Chart](Basic_Plots_14_Force.html)
-        1. [Chord Chart](Basic_Plots_15_Chord.html)
-        1. [Gauge Chart](Basic_Plots_16_Gauge.html)
-    1. Other Plots
-        - Mono-coordinate System
-        1. [Word Cloud](Basic_Plots_21_WordCloud.html)
-        1. [Venn Chart](Basic_Plots_22_Venn.html)
-        - Multi-coordinates System
-        1. [Map](Basic_Plots_31_Map.html)
-        1. [Tree Chart](Basic_Plots_32_Tree.html)
-        1. [Treemap](Basic_Plots_33_Treemap.html)
-        1. [Heatmap](Basic_Plots_34_Heatmap.html)
+    1. Mono-coordinate System
+        1. Cartesian Coordinate System
+            1. [Scatter/Bubble Plot](Basic_Plots_01_Scatterplot.html)
+            1. [Bar/Column Chart](Basic_Plots_02_Bar.html)
+            1. [Line/Area Chart](Basic_Plots_03_Line.html)
+            1. [Candlestick/K Chart](Basic_Plots_04_K.html)
+            1. [Event River Chart](Basic_Plots_05_eventRiver.html)
+        1. Others
+            1. [Force Chart](Basic_Plots_11_Force.html)
+            1. [Chord Chart](Basic_Plots_12_Chord.html)
+            1. [Word Cloud](Basic_Plots_13_WordCloud.html)
+            1. [Venn Chart](Basic_Plots_14_Venn.html)
+            1. [Heatmap](Basic_Plots_15_Heatmap.html)
+    1. Multi-coordinate System
+        1. Polar Coordinate System
+            1. [Pie/Ring/Rose Chart](Basic_Plots_21_Pie.html)
+            1. [Funnel/Pyramid Chart](Basic_Plots_22_Funnel.html)
+            1. [Radar Chart](Basic_Plots_23_Radar.html)
+            1. [Gauge Chart](Basic_Plots_24_Gauge.html)
+        1. Others
+            1. [Map](Basic_Plots_31_Map.html)
+            1. [Tree Chart](Basic_Plots_32_Tree.html)
+            1. [Treemap](Basic_Plots_33_Treemap.html)
         
 1. Mixed Plots
 
