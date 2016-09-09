@@ -131,6 +131,8 @@ Then you can configure the widgets, add markLines and/or markPoints, fortify the
 
 ## `addMarkLine` And `addMarkPoint`
 
+You can fit a linear regression model and define two points for the markLine.
+
 ```{r}
 lm <- with(iris, lm(Petal.Width~Sepal.Width))
 pred <- predict(lm, data.frame(Sepal.Width=c(2, 4.5)))
@@ -145,6 +147,19 @@ echartr(iris, Sepal.Width, Petal.Width, Species) %>%
         xAxis1=2, yAxis1=pred[1], xAxis2=4.5, yAxis2=pred[2]))
 ```
 
+You can add marklines/markPoints series by series, just as the example did.  But sometimes you may want to add markLines/markPoints for muliple sereis at one time, when you can simply provide a mapping varible `series` in the data and assign corresponding series variable in the function call. 
+
+```r
+data <- data.frame(
+    name1=c('Max', 'Mean', 'Min'), type=c('max', 'average', 'min'),
+    series=levels(iris$Species))
+echartr(iris, Sepal.Width, Petal.Width, Species) %>%
+    addML(series=1:3, data=data) %>%
+    addMP(series=2, data=data.frame(name='Max', type='max')) %>%
+    addML(series='Linear Reg', data=data.frame(
+        name1='Reg', value=lm$coefficients[2], 
+        xAxis1=2, yAxis1=pred[1], xAxis2=4.5, yAxis2=pred[2]))
+```
 ---------------
 
 You can refer to related functions to play around on your own.

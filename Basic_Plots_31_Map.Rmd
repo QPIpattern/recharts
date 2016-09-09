@@ -303,6 +303,12 @@ g <- echartr(NULL, type='map_china') %>%
 g
 ```
 
+It is equivalent to
+```r
+g <- echartr(NULL, type='map_china') %>% 
+    addML(series=c('北京', '上海', '广州), data=route) 
+```
+
 ### `addGeoCoord`
 
 But the markLines are not shown yet. You have to append the longitudes and latitudes of the places ever appear in the markLine dataset using `addGeoCoord`.
@@ -359,18 +365,21 @@ g %>% addGeoCoord(chinapm25[,c('name', 'lng', 'lat')]) %>%
 
 #### Query the Coordinates
 
-What if I don't know the coordinates of the places? You need `geocode` (forked from <github.com/caijun/geoChina>), which queries info from Google (so first you should be able to visit Google) or Baidu (in this way you need to provide api key). 
+What if I don't know the coordinates of the places? You need `geocode` (forked from [geoChina](github.com/caijun/geoChina)), which queries info from Google (so first you should be able to visit Google) or Baidu (in this way you need to provide Baidu api key). 
 
 ```{r}
-coor <- geocode(c('北京', '上海'))
-coor
+geocode(c('北京', '上海'), api='google')
 ```
 
-These are coordinates under WGS-84 system. If you want to apply them in Echarts, you need to convert them to BD-09 system. You can use `convWGS2BD` function to do that.
+or `geocode(c('北京', '上海'), api='baidu', key='xxxxx')`.
+
+These are coordinates under WGS-84 system. If you want to apply them in Echarts, you need to convert them to BD-09 system. You can use `convWGS2BD` function or use `geocode` with `ocs`='BD-09' to do that.
 
 ```{r}
-convWGS2BD(coor)
+convWGS2BD(geocode(c('北京', '上海'), api='google'))
 ```
+
+or `geocode(c('北京', '上海'), api='google', ocs='BD-09')`
 
 ## `addMarkLine` And `addMarkPoint`
 
@@ -388,9 +397,8 @@ target <- data.frame(
         "福州","太原","长春","重庆","西安","成都","常州","北京","北海","海口"),
     value=c(95,90,80,70,60,50,40,30,20,10,95,90,80,70,60,50,40,30,20,10,95,90,
             80,70,60,50,40,30,20,10))
-target2 <- target
-names(target2) <- c("group", 'name', 'value')
-target2$series <- paste0(target2$group, 'Top10')  # series column mapping series of addML/addMP
+# series column mapping series of addML/addMP
+target$series <- paste0(target$name1, 'Top10')
 
 ## apply addGeoCoord, and add markLines without values
 g <- echartr(NULL, type='map_china') %>% addGeoCoord(coord) %>%
@@ -422,7 +430,7 @@ jsSymbolSize <- JS('function (v) {return 10+v/10;}')
 mp.style <- list(normal=list(label=list(show=FALSE)), 
                  emphasis=list(label=list(position='top')))
 g2 <- g1 %>%
-    addMP(series=2:4, data=target2,
+    addMP(series=2:4, data=target[,c("name2", "value", "series")],
           effect=list(show=TRUE), symbolSize=jsSymbolSize, 
           itmeStyle=mp.style) 
 g2

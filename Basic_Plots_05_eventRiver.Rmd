@@ -24,7 +24,11 @@ EventRiver plot contains 1 basic type: eventRiver.
 <tr><td>
 ```{r,echo=FALSE}
 data(events)
-echartr(events, c(time, event), c(value, weight), series, type='eventRiver') %>% 
+events$link <- 'www.baidu.com'
+events$img <- 'inst/favicon.png'
+events$title <- paste(rownames(events), events$event)
+echartr(events, c(time, event, title, link, img), c(value, weight), series, 
+        type='eventRiver') %>% 
     setTheme('infographic', width=400, height=300) %>% 
     setTitle('Event River', 'Ficticious Data') %>% setXAxis('Time')
 ```
@@ -73,7 +77,11 @@ echartr(data, x, y, <z>, <series>, <type>)
 
 ```{r}
 data(events)
-echartr(events, c(time, event), c(value, weight), series, type='eventRiver') %>% 
+events$link <- 'www.baidu.com'
+events$img <- 'inst/favicon.png'
+events$title <- paste(rownames(events), events$event)
+echartr(events, c(time, event, title, link, img), c(value, weight), series, 
+        type='eventRiver') %>% 
     setTitle('Event River', 'Ficticious Data') %>% setXAxis(name='Time') %>%
     setGrid(y2=80)
 ```
