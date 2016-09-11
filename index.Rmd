@@ -49,23 +49,27 @@ install_github("madlogos/recharts")
 1. Mixed Plots
 
 1. Axis/Widget Configuration
-    - Axis/Grid
-    1. [`setAxis`](Widget_01_Axis.html)
-    1. [`setPolar`](Widget_02_Polar.html)
-    1. [`setGrid`](Widget_03_Grid.html)
-    - Graph Elements
-    1. [`addMarkLine`](Widgets_11_markLine.html)
-    1. [`addMarkPoint`](Widgets_12_markPoint.html)
-    1. [`addGeoCoord`](Widgets_13_geoCoord.html)
-    1. [`addNameMap`](Widgets_14_nameMap.html)
-    - Widgets
-    1. [`setTitle`](Widget_21_Title.html)
-    1. [`setLegend`](Widget_22_Legend.html)
-    1. [`setTimeline`](Widget_23_Timeline.html)
-    1. [`setToolbox`](Widget_24_Toolbox.html)
-    1. [`setDataRange`](Widget_25_DataRange.html)
-    1. [`setDataZoom`](Widget_26_DataZoom.html)
-    1. [`setRoam`](Widget_27_RoamController.html)
+    1. Tune Series
+        1. [`setSeries`](setSeries.html)
+    1. Axis/Grid
+        1. [`setAxis`](Widget_01_Axis.html)
+        1. [`setPolar`](Widget_02_Polar.html)
+        1. [`setGrid`](Widget_03_Grid.html)
+    1. Graph Elements
+        1. [`addMarkLine`](Widgets_11_markLine.html)
+        1. [`addMarkPoint`](Widgets_12_markPoint.html)
+        1. [`addGeoCoord`](Widgets_13_geoCoord.html)
+        1. [`addNameMap`](Widgets_14_nameMap.html)
+    1. Widgets
+        1. [`setTitle`](Widget_21_Title.html)
+        1. [`setLegend`](Widget_22_Legend.html)
+        1. [`setTimeline`](Widget_23_Timeline.html)
+        1. [`setToolbox`](Widget_24_Toolbox.html)
+        1. [`setDataRange`](Widget_25_DataRange.html)
+        1. [`setDataZoom`](Widget_26_DataZoom.html)
+        1. [`setRoam`](Widget_27_RoamController.html)
+    1. Feature Lists
+        1. [`setStyle`](setStyle.html)
 
 1. Aesthetic Configuration
     1. [`setTooltip`](Widget_31_Tooltip.html)
@@ -211,6 +215,36 @@ You can save the plot as an object and keep modifying the plot using `%>%`.
 
 ```{r}
 g = echartr(mtcars, wt, mpg, factor(am, labels=c('Automatic', 'Manual')))
+```
+
+### Tune the Series
+
+The above command made an Echarts object `g` containing two series: 'Automatic' and 'Manual'. The data strcuture of `g` is:
+
+```
+- x
+    - series
+        - list 1
+            - name: 'Automatic'
+            - data: ...
+            - type: 'scatter'
+        - list 2
+            - name: 'Manual'
+            - data: ...
+            - type: 'scatter'
+    - legend
+    - xAxis
+    - yAxis
+    - tooltip
+    ...
+```
+
+If you want to customize the definition of the series directly, you can call the low-level function `setSeries`.
+
+Let's set 'Manual' series (series index 2) symbolSize 8, symbolRotate 30.
+
+```{r}
+g %>% setSeries(series=2, symbolSize=8, symbolRotate=30)
 ```
 
 ### markLine
