@@ -98,7 +98,7 @@ setX1Axis(chart, ...)
 +-------------+----------------------------------------------------------------+
 | data        | A character vector/list for axis of type 'category', to define the text labels shown in this axis. Default NULL. You can even pass in a complicated list with textSytle list: `list('Jan', 'Feb', 'Mar',` `list(value='Apr', textStyle=list(color='red', ...)), 'May', ...)`  |
 +-------------+----------------------------------------------------------------+
-| ...         | Elipsis. 
+| ...         | Elipsis.  |
 +-------------+----------------------------------------------------------------+
 
 
@@ -134,16 +134,17 @@ You can change the appearance of the axis: axis title, split number, axis tick l
 ```r
 g1 %>% setXAxis(name='m/d', splitNumber=20, axisLabel=list(
     formatter='%m/%d', rotate=90)) %>%
-    setYAxis(axisLabel=list(formatter='{value} ℃')) 
+    setYAxis(axisLabel=list(formatter='{value} °C')) 
 ```
 is equivalent to
 
 ```r
 g1 %>% setXAxis(name='m/d', splitNumber=20, axisLabel=list(
        formatter=JS('function (v) {
-                    return v.getMonth() + 1 + "/" + v.getDate();}'),
+                    return v.getMonth() + 1 + "/" + v.getDate();
+                    }'),
        rotate=90)) %>%
-       setYAxis(axisLabel=list(formatter='{value} ℃'))
+       setYAxis(axisLabel=list(formatter='{value} °C'))
 ```
 
 <table>
@@ -155,7 +156,7 @@ g1 %>% setTheme(width=400, height=300)
 ```{r, echo=FALSE}
 g1 %>% setXAxis(name='m/d', splitNumber=20, axisLabel=list(
     formatter='%m/%d', rotate=90)) %>%
-    setYAxis(axisLabel=list(formatter='{value} ℃')) %>%
+    setYAxis(axisLabel=list(formatter='{value} °C')) %>%
     setTheme(width=400, height=300)
 ```
 </td></tr>
@@ -197,7 +198,7 @@ g3 %>% setTheme(width=400, height=300)
 ```{r,echo=FALSE}
 g3 %>% setXAxis(splitLine=list(show=FALSE)) %>% setGrid(borderWidth=0) %>%
     setYAxis(axisLine=list(lineStyle=lineStyle(width=0)), 
-             axisLabel=list(formatter="%.1f ℃")) %>% 
+             axisLabel=list(formatter="%.1f °C")) %>% 
     setTheme(width=400, height=300)
 ```
 </td></tr>
@@ -212,7 +213,7 @@ g4 %>% setY1Axis(series='Wind', axisLine=list(lineStyle=lineStyle(width=0)),
     setXAxis(splitLine=list(show=FALSE), axisLine=list(
         lineStyle=lineStyle(color='darkgray'))) %>% 
     setYAxis(axisLine=list(lineStyle=lineStyle(width=0)), 
-             axisLabel=list(formatter="%.1f ℃"), min=0, name='Temp') %>% 
+             axisLabel=list(formatter="%.1f °C"), min=0, name='Temp') %>% 
     setGrid(borderWidth=0)
 ```
 
@@ -228,7 +229,7 @@ g4 %>% setY1Axis(series='Wind', axisLine=list(lineStyle=lineStyle(width=0)),
     setXAxis(splitLine=list(show=FALSE), axisLine=list(
         lineStyle=lineStyle(color='darkgray'))) %>% 
     setYAxis(axisLine=list(lineStyle=lineStyle(width=0)), 
-             axisLabel=list(formatter="%.1f ℃"), min=0, name='Temp') %>% 
+             axisLabel=list(formatter="%.1f °C"), min=0, name='Temp') %>% 
     setGrid(borderWidth=0) %>%
     setTheme(width=400, height=300)
 ```

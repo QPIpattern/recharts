@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Widget 11 - markLine</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/htmlwidgets-0.7/htmlwidgets.js"></script>
+<script src="libs/echarts-2.2.7/echarts-all.js"></script>
+<script src="libs/echarts-2.2.7/ext/params.js"></script>
+<script src="libs/echarts-2.2.7/ext/loadGeoJSON.js"></script>
+<script src="libs/echarts-binding-0.0.5/echarts.js"></script>
+<script src="libs/echarts-module-2.2.7/base.js"></script>
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 70px;
+}
+p code {
+  white-space: inherit;
+}
+.html-widget-static-bound {
+  margin: auto;
+}
+.alert>p {
+  margin-bottom: 10.5px;
+}
+</style>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="libs/highlight/default.css"
+      type="text/css" />
+<script src="libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="./">recharts</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="./">Home</a></li>
+        <li><a href="index_cn.html">首页</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://github.com/madlogos/recharts" title="View Source on Github"><i class="fa fa-github fa-lg"></i></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</nav><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Widget 11 - markLine</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#function-call"><span class="toc-section-number">2</span> Function Call</a></li>
+<li><a href="#showcase"><span class="toc-section-number">3</span> Showcase</a><ul>
+<li><a href="#cartesian-coordinate-system"><span class="toc-section-number">3.1</span> Cartesian Coordinate System</a></li>
+<li><a href="#non-decarsian-coordinate-system"><span class="toc-section-number">3.2</span> Non-decarsian Coordinate System</a></li>
+</ul></li>
+<li><a href="#references"><span class="toc-section-number">4</span> References</a></li>
+</ul>
+</div>
+
+<p>First, you should load <code>recharts</code>:</p>
+<pre class="r"><code>library(recharts)</code></pre>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Proper marklines makes a chart more informative. We can use <code>addMarkLine</code> (or <code>addML</code> for short) to add markLines series by series, timeline by timeline. We can also use <code>overrideMarkLine</code> (or <code>overrideML</code> for short) to override existing markLines.</p>
+</div>
+<div id="function-call" class="section level1">
+<h1><span class="header-section-number">2</span> Function Call</h1>
+<pre class="r"><code>addMarkLine(chart, series = NULL, timeslots = NULL, data = NULL,
+  clickable = TRUE, symbol = c(&quot;circle&quot;, &quot;arrow&quot;), symbolSize = c(2, 4),
+  symbolRotate = NULL, large = FALSE, smooth = FALSE, smoothness = 0.2,
+  precision = 2, bundling = list(enable = FALSE, maxTurningAngle = 45),
+  effect = list(show = FALSE), itemStyle = NULL, mode = c(&quot;add&quot;,
+  &quot;override&quot;), ...)</code></pre>
+<p><code>overrideML</code> is exactly the same as <code>addML(mode='override', ...)</code>.</p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="82%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Arg</th>
+<th align="left">Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p><strong>chart</strong></p></td>
+<td align="left"><p>Echarts object generated by <code>echartR</code> or <code>echart</code>.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p>series</p></td>
+<td align="left"><p>Numeric (series index) or character (series name), numeric preferred. If set NULL, then apply the markPoint to all the series.</p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p>timeslots</p></td>
+<td align="left"><p>Numeric (timeslot index) or character (timeslot name), numeric is preferred. If set NULL, then apply the markPoint to all the timeslots. You can use z for short.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p>data</p></td>
+<td align="left"><p>Data.frame, the data of the markLines. It must contain the following columns: name1, name2, value / type and/or x1 / xAxis1, y1 / yAxis1, x2 / xAxis2, y2 / yAxis2 and/or series. When series is given, it must be cooresponding to the series argument. - <strong>generic</strong>: generic form is columns [name1, name2, value, x1, y1, x2, y2], the minimum form is [name1, x1, y1, x2, y2] - <strong>scatter, line, bar</strong>: [name1, name2, value, x1, y1, x2, y2] or [name1, type] (type can only be ‘max’, ‘min’ or ‘average’) or [name1, name2, value, xAxis1, yAxis1, xAxis2, yAxis2] - <strong>k, eventRiver</strong>: [name1, name2, value, x1, y1, x2, y2] or [name1, name2, value, xAxis1, yAxis1, xAxis2, yAxis2] 0 <strong>map</strong>: [name1, name2, value]. You need to pass in [name1, lng1, lat1], [name2, lng2, lat2] using <code>addGeoCoord</code> separately.</p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p>clickable</p></td>
+<td align="left"><p>Logical, if the points are clickable. Default TRUE.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p>symbol</p></td>
+<td align="left"><p>Symbol of the markpoints, refer to <code>recharts:::validSymbols</code>. Default ‘pin’.</p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p>symbolSize</p></td>
+<td align="left"><p>Numeric or vector c(height, width) or JS function. Default 10.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p>symbolRotate</p></td>
+<td align="left"><p>Numeric -180 ~ 180. Default NULL.</p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p>large</p></td>
+<td align="left"><p>Logical if large effect is on. Default FALSE.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p>effect</p></td>
+<td align="left"><p>List. effect configurator of markPoints. Default NULL, which is <code>list(show=FALSE, type='scale',</code> <code>loop=TRUE, period=15, scaleSize=2,</code> <code>bounceDistance=10, color=NULL, shadowColor=NULL, shadowBlur=0)</code></p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p>itemStyle</p></td>
+<td align="left"><p>List. It is a list with the structure <code>list(normal=list(...), emphasis=list(...))</code>. Default NULL.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p>mode</p></td>
+<td align="left"><p>add’ or ‘override’ the data part of markLine to the echarts object. Default ‘add’. You can use <code>overrideMarkLine</code> to override data part of existing markLine.</p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p>…</p></td>
+<td align="left"><p>Elipsis.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="showcase" class="section level1">
+<h1><span class="header-section-number">3</span> Showcase</h1>
+<div id="cartesian-coordinate-system" class="section level2">
+<h2><span class="header-section-number">3.1</span> Cartesian Coordinate System</h2>
+<p>The example below is from Basic_Plot_01_Scatterplot.</p>
+<pre class="r"><code>lm &lt;- with(iris, lm(Petal.Width~Sepal.Width))
+pred &lt;- predict(lm, data.frame(Sepal.Width=c(2, 4.5)))</code></pre>
+<p>We respectively add markLines of max, mean, min of data series 1 (‘setosa’), 2 (‘versicolor’) and 3 (‘virginica’). Then we addditionally add markLine of linear regression model.</p>
+<p>The fourth markLine calls a special data strucutre: a data.frame containing ‘name1’, ‘value’, ‘xAxis1’, ‘yAxis1’, ‘xAxis2’, ‘yAxis2’. This is only for Cartesian coordinate system.</p>
+<pre class="r"><code>g = echartr(iris, Sepal.Width, Petal.Width, Species) %&gt;% setToolbox(show=FALSE)</code></pre>
+<table>
+<tr>
+<td>
+<pre class="r"><code>g = g %&gt;% setTheme(width=400, height=300) %&gt;%
+    addML(series=1, data=data.frame(name1=&#39;Max&#39;, type=&#39;max&#39;))
+g</code></pre>
+<div id="echarts-5665aca2ae09b6875bbc96b6aba75bd443bc8ef2" style="width:400px;height:300px;" class="echarts html-widget"></div>
+<script type="application/json" data-for="echarts-5665aca2ae09b6875bbc96b6aba75bd443bc8ef2">{"x":{"series":[{"name":"setosa","type":"scatter","data":[[3.5,0.2],[3,0.2],[3.2,0.2],[3.1,0.2],[3.6,0.2],[3.9,0.4],[3.4,0.3],[3.4,0.2],[2.9,0.2],[3.1,0.1],[3.7,0.2],[3.4,0.2],[3,0.1],[3,0.1],[4,0.2],[4.4,0.4],[3.9,0.4],[3.5,0.3],[3.8,0.3],[3.8,0.3],[3.4,0.2],[3.7,0.4],[3.6,0.2],[3.3,0.5],[3.4,0.2],[3,0.2],[3.4,0.4],[3.5,0.2],[3.4,0.2],[3.2,0.2],[3.1,0.2],[3.4,0.4],[4.1,0.1],[4.2,0.2],[3.1,0.2],[3.2,0.2],[3.5,0.2],[3.6,0.1],[3,0.2],[3.4,0.2],[3.5,0.3],[2.3,0.3],[3.2,0.2],[3.5,0.6],[3.8,0.4],[3,0.3],[3.8,0.2],[3.2,0.2],[3.7,0.2],[3.3,0.2]],"markLine":{"data":[{"name":"Max","type":"max"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"versicolor","type":"scatter","data":[[3.2,1.4],[3.2,1.5],[3.1,1.5],[2.3,1.3],[2.8,1.5],[2.8,1.3],[3.3,1.6],[2.4,1],[2.9,1.3],[2.7,1.4],[2,1],[3,1.5],[2.2,1],[2.9,1.4],[2.9,1.3],[3.1,1.4],[3,1.5],[2.7,1],[2.2,1.5],[2.5,1.1],[3.2,1.8],[2.8,1.3],[2.5,1.5],[2.8,1.2],[2.9,1.3],[3,1.4],[2.8,1.4],[3,1.7],[2.9,1.5],[2.6,1],[2.4,1.1],[2.4,1],[2.7,1.2],[2.7,1.6],[3,1.5],[3.4,1.6],[3.1,1.5],[2.3,1.3],[3,1.3],[2.5,1.3],[2.6,1.2],[3,1.4],[2.6,1.2],[2.3,1],[2.7,1.3],[3,1.2],[2.9,1.3],[2.9,1.3],[2.5,1.1],[2.8,1.3]]},{"name":"virginica","type":"scatter","data":[[3.3,2.5],[2.7,1.9],[3,2.1],[2.9,1.8],[3,2.2],[3,2.1],[2.5,1.7],[2.9,1.8],[2.5,1.8],[3.6,2.5],[3.2,2],[2.7,1.9],[3,2.1],[2.5,2],[2.8,2.4],[3.2,2.3],[3,1.8],[3.8,2.2],[2.6,2.3],[2.2,1.5],[3.2,2.3],[2.8,2],[2.8,2],[2.7,1.8],[3.3,2.1],[3.2,1.8],[2.8,1.8],[3,1.8],[2.8,2.1],[3,1.6],[2.8,1.9],[3.8,2],[2.8,2.2],[2.8,1.5],[2.6,1.4],[3,2.3],[3.4,2.4],[3.1,1.8],[3,1.8],[3.1,2.1],[3.1,2.4],[3.1,2.3],[2.7,1.9],[3.2,2.3],[3.3,2.5],[3,2.3],[2.5,1.9],[3,2],[3.4,2.3],[3,1.8]]}],"legend":{"show":true,"data":["setosa","versicolor","virginica"],"x":"left","y":"top","orient":"horizontal"},"yAxis":[{"type":"value","show":true,"position":"left","name":"Petal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"xAxis":[{"type":"value","show":true,"position":"bottom","name":"Sepal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"tooltip":{"show":true,"trigger":"axis","axisPointer":{"type":"cross","crossStyle":{"type":"dashed"},"lineStyle":"solid","shadowStyle":{"color":"rgba(150,150,150,0.3)","width":"auto","type":"default"}},"textStyle":{"color":"#fff"},"formatter":"function (params) {\n    var i;\n    var text;\n    if (params.seriesName === null || params.seriesName === \"\"){\n        if (params.value.length > 1) {\n            text = params.value[0];\n            for (i = 1; i < params.value.length; i++){\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.name + \" : \" + params.value;\n        }\n    } else {\n        if (params.value.length > 1) {\n            text = params.seriesName + \" :<br/>\" + params.value[0];\n            for (i = 1; i < params.value.length; i++) {\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.seriesName + \" :<br/>\"\n            + params.name + \" : \" + params.value;\n        }\n    }\n    }","backgroundColor":"rgba(0,0,0,0.7)"},"toolbox":{"show":false}},"evals":["tooltip.formatter"],"jsHooks":[]}</script>
+</td>
+<td>
+<pre class="r"><code>g = g %&gt;% 
+    addML(series=2, data=data.frame(
+        name1=&#39;Mean&#39;, type=&#39;average&#39;)) 
+g</code></pre>
+<div id="echarts-988087e214395e9e834bb71a36a2f85848d073e4" style="width:400px;height:300px;" class="echarts html-widget"></div>
+<script type="application/json" data-for="echarts-988087e214395e9e834bb71a36a2f85848d073e4">{"x":{"series":[{"name":"setosa","type":"scatter","data":[[3.5,0.2],[3,0.2],[3.2,0.2],[3.1,0.2],[3.6,0.2],[3.9,0.4],[3.4,0.3],[3.4,0.2],[2.9,0.2],[3.1,0.1],[3.7,0.2],[3.4,0.2],[3,0.1],[3,0.1],[4,0.2],[4.4,0.4],[3.9,0.4],[3.5,0.3],[3.8,0.3],[3.8,0.3],[3.4,0.2],[3.7,0.4],[3.6,0.2],[3.3,0.5],[3.4,0.2],[3,0.2],[3.4,0.4],[3.5,0.2],[3.4,0.2],[3.2,0.2],[3.1,0.2],[3.4,0.4],[4.1,0.1],[4.2,0.2],[3.1,0.2],[3.2,0.2],[3.5,0.2],[3.6,0.1],[3,0.2],[3.4,0.2],[3.5,0.3],[2.3,0.3],[3.2,0.2],[3.5,0.6],[3.8,0.4],[3,0.3],[3.8,0.2],[3.2,0.2],[3.7,0.2],[3.3,0.2]],"markLine":{"data":[{"name":"Max","type":"max"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"versicolor","type":"scatter","data":[[3.2,1.4],[3.2,1.5],[3.1,1.5],[2.3,1.3],[2.8,1.5],[2.8,1.3],[3.3,1.6],[2.4,1],[2.9,1.3],[2.7,1.4],[2,1],[3,1.5],[2.2,1],[2.9,1.4],[2.9,1.3],[3.1,1.4],[3,1.5],[2.7,1],[2.2,1.5],[2.5,1.1],[3.2,1.8],[2.8,1.3],[2.5,1.5],[2.8,1.2],[2.9,1.3],[3,1.4],[2.8,1.4],[3,1.7],[2.9,1.5],[2.6,1],[2.4,1.1],[2.4,1],[2.7,1.2],[2.7,1.6],[3,1.5],[3.4,1.6],[3.1,1.5],[2.3,1.3],[3,1.3],[2.5,1.3],[2.6,1.2],[3,1.4],[2.6,1.2],[2.3,1],[2.7,1.3],[3,1.2],[2.9,1.3],[2.9,1.3],[2.5,1.1],[2.8,1.3]],"markLine":{"data":[{"name":"Mean","type":"average"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"virginica","type":"scatter","data":[[3.3,2.5],[2.7,1.9],[3,2.1],[2.9,1.8],[3,2.2],[3,2.1],[2.5,1.7],[2.9,1.8],[2.5,1.8],[3.6,2.5],[3.2,2],[2.7,1.9],[3,2.1],[2.5,2],[2.8,2.4],[3.2,2.3],[3,1.8],[3.8,2.2],[2.6,2.3],[2.2,1.5],[3.2,2.3],[2.8,2],[2.8,2],[2.7,1.8],[3.3,2.1],[3.2,1.8],[2.8,1.8],[3,1.8],[2.8,2.1],[3,1.6],[2.8,1.9],[3.8,2],[2.8,2.2],[2.8,1.5],[2.6,1.4],[3,2.3],[3.4,2.4],[3.1,1.8],[3,1.8],[3.1,2.1],[3.1,2.4],[3.1,2.3],[2.7,1.9],[3.2,2.3],[3.3,2.5],[3,2.3],[2.5,1.9],[3,2],[3.4,2.3],[3,1.8]]}],"legend":{"show":true,"data":["setosa","versicolor","virginica"],"x":"left","y":"top","orient":"horizontal"},"yAxis":[{"type":"value","show":true,"position":"left","name":"Petal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"xAxis":[{"type":"value","show":true,"position":"bottom","name":"Sepal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"tooltip":{"show":true,"trigger":"axis","axisPointer":{"type":"cross","crossStyle":{"type":"dashed"},"lineStyle":"solid","shadowStyle":{"color":"rgba(150,150,150,0.3)","width":"auto","type":"default"}},"textStyle":{"color":"#fff"},"formatter":"function (params) {\n    var i;\n    var text;\n    if (params.seriesName === null || params.seriesName === \"\"){\n        if (params.value.length > 1) {\n            text = params.value[0];\n            for (i = 1; i < params.value.length; i++){\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.name + \" : \" + params.value;\n        }\n    } else {\n        if (params.value.length > 1) {\n            text = params.seriesName + \" :<br/>\" + params.value[0];\n            for (i = 1; i < params.value.length; i++) {\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.seriesName + \" :<br/>\"\n            + params.name + \" : \" + params.value;\n        }\n    }\n    }","backgroundColor":"rgba(0,0,0,0.7)"},"toolbox":{"show":false}},"evals":["tooltip.formatter"],"jsHooks":[]}</script>
+</td>
+</tr>
+<tr>
+<td>
+<pre class="r"><code>g = g %&gt;%  addML(series=3, data=data.frame(
+    name1=&#39;Min&#39;, type=&#39;min&#39;)) 
+g</code></pre>
+<div id="echarts-ac57966aa15eb68d4043dbf9199427cd4f6ac076" style="width:400px;height:300px;" class="echarts html-widget"></div>
+<script type="application/json" data-for="echarts-ac57966aa15eb68d4043dbf9199427cd4f6ac076">{"x":{"series":[{"name":"setosa","type":"scatter","data":[[3.5,0.2],[3,0.2],[3.2,0.2],[3.1,0.2],[3.6,0.2],[3.9,0.4],[3.4,0.3],[3.4,0.2],[2.9,0.2],[3.1,0.1],[3.7,0.2],[3.4,0.2],[3,0.1],[3,0.1],[4,0.2],[4.4,0.4],[3.9,0.4],[3.5,0.3],[3.8,0.3],[3.8,0.3],[3.4,0.2],[3.7,0.4],[3.6,0.2],[3.3,0.5],[3.4,0.2],[3,0.2],[3.4,0.4],[3.5,0.2],[3.4,0.2],[3.2,0.2],[3.1,0.2],[3.4,0.4],[4.1,0.1],[4.2,0.2],[3.1,0.2],[3.2,0.2],[3.5,0.2],[3.6,0.1],[3,0.2],[3.4,0.2],[3.5,0.3],[2.3,0.3],[3.2,0.2],[3.5,0.6],[3.8,0.4],[3,0.3],[3.8,0.2],[3.2,0.2],[3.7,0.2],[3.3,0.2]],"markLine":{"data":[{"name":"Max","type":"max"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"versicolor","type":"scatter","data":[[3.2,1.4],[3.2,1.5],[3.1,1.5],[2.3,1.3],[2.8,1.5],[2.8,1.3],[3.3,1.6],[2.4,1],[2.9,1.3],[2.7,1.4],[2,1],[3,1.5],[2.2,1],[2.9,1.4],[2.9,1.3],[3.1,1.4],[3,1.5],[2.7,1],[2.2,1.5],[2.5,1.1],[3.2,1.8],[2.8,1.3],[2.5,1.5],[2.8,1.2],[2.9,1.3],[3,1.4],[2.8,1.4],[3,1.7],[2.9,1.5],[2.6,1],[2.4,1.1],[2.4,1],[2.7,1.2],[2.7,1.6],[3,1.5],[3.4,1.6],[3.1,1.5],[2.3,1.3],[3,1.3],[2.5,1.3],[2.6,1.2],[3,1.4],[2.6,1.2],[2.3,1],[2.7,1.3],[3,1.2],[2.9,1.3],[2.9,1.3],[2.5,1.1],[2.8,1.3]],"markLine":{"data":[{"name":"Mean","type":"average"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"virginica","type":"scatter","data":[[3.3,2.5],[2.7,1.9],[3,2.1],[2.9,1.8],[3,2.2],[3,2.1],[2.5,1.7],[2.9,1.8],[2.5,1.8],[3.6,2.5],[3.2,2],[2.7,1.9],[3,2.1],[2.5,2],[2.8,2.4],[3.2,2.3],[3,1.8],[3.8,2.2],[2.6,2.3],[2.2,1.5],[3.2,2.3],[2.8,2],[2.8,2],[2.7,1.8],[3.3,2.1],[3.2,1.8],[2.8,1.8],[3,1.8],[2.8,2.1],[3,1.6],[2.8,1.9],[3.8,2],[2.8,2.2],[2.8,1.5],[2.6,1.4],[3,2.3],[3.4,2.4],[3.1,1.8],[3,1.8],[3.1,2.1],[3.1,2.4],[3.1,2.3],[2.7,1.9],[3.2,2.3],[3.3,2.5],[3,2.3],[2.5,1.9],[3,2],[3.4,2.3],[3,1.8]],"markLine":{"data":[{"name":"Min","type":"min"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}}],"legend":{"show":true,"data":["setosa","versicolor","virginica"],"x":"left","y":"top","orient":"horizontal"},"yAxis":[{"type":"value","show":true,"position":"left","name":"Petal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"xAxis":[{"type":"value","show":true,"position":"bottom","name":"Sepal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"tooltip":{"show":true,"trigger":"axis","axisPointer":{"type":"cross","crossStyle":{"type":"dashed"},"lineStyle":"solid","shadowStyle":{"color":"rgba(150,150,150,0.3)","width":"auto","type":"default"}},"textStyle":{"color":"#fff"},"formatter":"function (params) {\n    var i;\n    var text;\n    if (params.seriesName === null || params.seriesName === \"\"){\n        if (params.value.length > 1) {\n            text = params.value[0];\n            for (i = 1; i < params.value.length; i++){\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.name + \" : \" + params.value;\n        }\n    } else {\n        if (params.value.length > 1) {\n            text = params.seriesName + \" :<br/>\" + params.value[0];\n            for (i = 1; i < params.value.length; i++) {\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.seriesName + \" :<br/>\"\n            + params.name + \" : \" + params.value;\n        }\n    }\n    }","backgroundColor":"rgba(0,0,0,0.7)"},"toolbox":{"show":false}},"evals":["tooltip.formatter"],"jsHooks":[]}</script>
+</td>
+<td>
+<pre class="r"><code>g %&gt;% addML(series=&#39;Linear Reg&#39;, data=data.frame(
+    name1=&#39;Reg&#39;, value=lm$coefficients[2], 
+    xAxis1=2, yAxis1=pred[1], xAxis2=4.5, yAxis2=pred[2]))</code></pre>
+<div id="echarts-e9417a304571df1e01b33b59a45285fd8c65b883" style="width:400px;height:300px;" class="echarts html-widget"></div>
+<script type="application/json" data-for="echarts-e9417a304571df1e01b33b59a45285fd8c65b883">{"x":{"series":[{"name":"setosa","type":"scatter","data":[[3.5,0.2],[3,0.2],[3.2,0.2],[3.1,0.2],[3.6,0.2],[3.9,0.4],[3.4,0.3],[3.4,0.2],[2.9,0.2],[3.1,0.1],[3.7,0.2],[3.4,0.2],[3,0.1],[3,0.1],[4,0.2],[4.4,0.4],[3.9,0.4],[3.5,0.3],[3.8,0.3],[3.8,0.3],[3.4,0.2],[3.7,0.4],[3.6,0.2],[3.3,0.5],[3.4,0.2],[3,0.2],[3.4,0.4],[3.5,0.2],[3.4,0.2],[3.2,0.2],[3.1,0.2],[3.4,0.4],[4.1,0.1],[4.2,0.2],[3.1,0.2],[3.2,0.2],[3.5,0.2],[3.6,0.1],[3,0.2],[3.4,0.2],[3.5,0.3],[2.3,0.3],[3.2,0.2],[3.5,0.6],[3.8,0.4],[3,0.3],[3.8,0.2],[3.2,0.2],[3.7,0.2],[3.3,0.2]],"markLine":{"data":[{"name":"Max","type":"max"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"versicolor","type":"scatter","data":[[3.2,1.4],[3.2,1.5],[3.1,1.5],[2.3,1.3],[2.8,1.5],[2.8,1.3],[3.3,1.6],[2.4,1],[2.9,1.3],[2.7,1.4],[2,1],[3,1.5],[2.2,1],[2.9,1.4],[2.9,1.3],[3.1,1.4],[3,1.5],[2.7,1],[2.2,1.5],[2.5,1.1],[3.2,1.8],[2.8,1.3],[2.5,1.5],[2.8,1.2],[2.9,1.3],[3,1.4],[2.8,1.4],[3,1.7],[2.9,1.5],[2.6,1],[2.4,1.1],[2.4,1],[2.7,1.2],[2.7,1.6],[3,1.5],[3.4,1.6],[3.1,1.5],[2.3,1.3],[3,1.3],[2.5,1.3],[2.6,1.2],[3,1.4],[2.6,1.2],[2.3,1],[2.7,1.3],[3,1.2],[2.9,1.3],[2.9,1.3],[2.5,1.1],[2.8,1.3]],"markLine":{"data":[{"name":"Mean","type":"average"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"virginica","type":"scatter","data":[[3.3,2.5],[2.7,1.9],[3,2.1],[2.9,1.8],[3,2.2],[3,2.1],[2.5,1.7],[2.9,1.8],[2.5,1.8],[3.6,2.5],[3.2,2],[2.7,1.9],[3,2.1],[2.5,2],[2.8,2.4],[3.2,2.3],[3,1.8],[3.8,2.2],[2.6,2.3],[2.2,1.5],[3.2,2.3],[2.8,2],[2.8,2],[2.7,1.8],[3.3,2.1],[3.2,1.8],[2.8,1.8],[3,1.8],[2.8,2.1],[3,1.6],[2.8,1.9],[3.8,2],[2.8,2.2],[2.8,1.5],[2.6,1.4],[3,2.3],[3.4,2.4],[3.1,1.8],[3,1.8],[3.1,2.1],[3.1,2.4],[3.1,2.3],[2.7,1.9],[3.2,2.3],[3.3,2.5],[3,2.3],[2.5,1.9],[3,2],[3.4,2.3],[3,1.8]],"markLine":{"data":[{"name":"Min","type":"min"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"Linear Reg","type":"scatter","data":[["-"]],"markLine":{"data":[[{"name":"Reg","value":"-0.6402766","xAxis":2,"yAxis":1.876319},{"name":"","xAxis":4.5,"yAxis":0.2756276}]],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}}],"legend":{"show":true,"data":["setosa","versicolor","virginica","Linear Reg"],"x":"left","y":"top","orient":"horizontal"},"yAxis":[{"type":"value","show":true,"position":"left","name":"Petal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"xAxis":[{"type":"value","show":true,"position":"bottom","name":"Sepal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"tooltip":{"show":true,"trigger":"axis","axisPointer":{"type":"cross","crossStyle":{"type":"dashed"},"lineStyle":"solid","shadowStyle":{"color":"rgba(150,150,150,0.3)","width":"auto","type":"default"}},"textStyle":{"color":"#fff"},"formatter":"function (params) {\n    var i;\n    var text;\n    if (params.seriesName === null || params.seriesName === \"\"){\n        if (params.value.length > 1) {\n            text = params.value[0];\n            for (i = 1; i < params.value.length; i++){\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.name + \" : \" + params.value;\n        }\n    } else {\n        if (params.value.length > 1) {\n            text = params.seriesName + \" :<br/>\" + params.value[0];\n            for (i = 1; i < params.value.length; i++) {\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.seriesName + \" :<br/>\"\n            + params.name + \" : \" + params.value;\n        }\n    }\n    }","backgroundColor":"rgba(0,0,0,0.7)"},"toolbox":{"show":false}},"evals":["tooltip.formatter"],"jsHooks":[]}</script>
+</td>
+</tr>
+</table>
+<p>Since the first three markLines share the same format, except for differing in data, we can combine them into one command.</p>
+<p>First, combine the data for the three markLines into a data.frame with valid columns names: ‘name1’, ‘type’, ‘series’, etc., of which ‘series’ must be corrsponding to the <code>series</code> argumnet (i.e. each row of data will be mapped to <code>series</code> argument of <code>addML</code>).</p>
+<pre class="r"><code>data &lt;- data.frame(
+    name1=c(&#39;Max&#39;, &#39;Mean&#39;, &#39;Min&#39;), type=c(&#39;max&#39;, &#39;average&#39;, &#39;min&#39;),
+    series=levels(iris$Species))
+echartr(iris, Sepal.Width, Petal.Width, Species) %&gt;%
+    addML(series=1:3, data=data) %&gt;%
+    addML(series=&#39;Linear Reg&#39;, data=data.frame(
+        name1=&#39;Reg&#39;, value=lm$coefficients[2], 
+        xAxis1=2, yAxis1=pred[1], xAxis2=4.5, yAxis2=pred[2]))</code></pre>
+<div id="echarts-f7117a2a1ae480cb3533cd22a2654663f479ca3e" style="width:672px;height:480px;" class="echarts html-widget"></div>
+<script type="application/json" data-for="echarts-f7117a2a1ae480cb3533cd22a2654663f479ca3e">{"x":{"series":[{"name":"setosa","type":"scatter","data":[[3.5,0.2],[3,0.2],[3.2,0.2],[3.1,0.2],[3.6,0.2],[3.9,0.4],[3.4,0.3],[3.4,0.2],[2.9,0.2],[3.1,0.1],[3.7,0.2],[3.4,0.2],[3,0.1],[3,0.1],[4,0.2],[4.4,0.4],[3.9,0.4],[3.5,0.3],[3.8,0.3],[3.8,0.3],[3.4,0.2],[3.7,0.4],[3.6,0.2],[3.3,0.5],[3.4,0.2],[3,0.2],[3.4,0.4],[3.5,0.2],[3.4,0.2],[3.2,0.2],[3.1,0.2],[3.4,0.4],[4.1,0.1],[4.2,0.2],[3.1,0.2],[3.2,0.2],[3.5,0.2],[3.6,0.1],[3,0.2],[3.4,0.2],[3.5,0.3],[2.3,0.3],[3.2,0.2],[3.5,0.6],[3.8,0.4],[3,0.3],[3.8,0.2],[3.2,0.2],[3.7,0.2],[3.3,0.2]],"markLine":{"data":[{"name":"Max","type":"max"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"versicolor","type":"scatter","data":[[3.2,1.4],[3.2,1.5],[3.1,1.5],[2.3,1.3],[2.8,1.5],[2.8,1.3],[3.3,1.6],[2.4,1],[2.9,1.3],[2.7,1.4],[2,1],[3,1.5],[2.2,1],[2.9,1.4],[2.9,1.3],[3.1,1.4],[3,1.5],[2.7,1],[2.2,1.5],[2.5,1.1],[3.2,1.8],[2.8,1.3],[2.5,1.5],[2.8,1.2],[2.9,1.3],[3,1.4],[2.8,1.4],[3,1.7],[2.9,1.5],[2.6,1],[2.4,1.1],[2.4,1],[2.7,1.2],[2.7,1.6],[3,1.5],[3.4,1.6],[3.1,1.5],[2.3,1.3],[3,1.3],[2.5,1.3],[2.6,1.2],[3,1.4],[2.6,1.2],[2.3,1],[2.7,1.3],[3,1.2],[2.9,1.3],[2.9,1.3],[2.5,1.1],[2.8,1.3]],"markLine":{"data":[{"name":"Mean","type":"average"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"virginica","type":"scatter","data":[[3.3,2.5],[2.7,1.9],[3,2.1],[2.9,1.8],[3,2.2],[3,2.1],[2.5,1.7],[2.9,1.8],[2.5,1.8],[3.6,2.5],[3.2,2],[2.7,1.9],[3,2.1],[2.5,2],[2.8,2.4],[3.2,2.3],[3,1.8],[3.8,2.2],[2.6,2.3],[2.2,1.5],[3.2,2.3],[2.8,2],[2.8,2],[2.7,1.8],[3.3,2.1],[3.2,1.8],[2.8,1.8],[3,1.8],[2.8,2.1],[3,1.6],[2.8,1.9],[3.8,2],[2.8,2.2],[2.8,1.5],[2.6,1.4],[3,2.3],[3.4,2.4],[3.1,1.8],[3,1.8],[3.1,2.1],[3.1,2.4],[3.1,2.3],[2.7,1.9],[3.2,2.3],[3.3,2.5],[3,2.3],[2.5,1.9],[3,2],[3.4,2.3],[3,1.8]],"markLine":{"data":[{"name":"Min","type":"min"}],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}},{"name":"Linear Reg","type":"scatter","data":[["-"]],"markLine":{"data":[[{"name":"Reg","value":"-0.6402766","xAxis":2,"yAxis":1.876319},{"name":"","xAxis":4.5,"yAxis":0.2756276}]],"clickable":true,"symbol":["circle","arrow"],"smooth":false,"symbolSize":[2,4],"large":false,"effect":{"show":false},"smoothness":0.2,"precision":2,"bundling":{"enable":false,"maxTurningAngle":45}}}],"legend":{"show":true,"data":["setosa","versicolor","virginica","Linear Reg"],"x":"left","y":"top","orient":"horizontal"},"yAxis":[{"type":"value","show":true,"position":"left","name":"Petal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"xAxis":[{"type":"value","show":true,"position":"bottom","name":"Sepal.Width","nameLocation":"end","boundaryGap":[0,0],"scale":true,"axisLine":{"show":true,"onZero":false},"axisTick":{"show":false},"axisLabel":{"show":true},"splitLine":{"show":true},"splitArea":{"show":false}}],"tooltip":{"show":true,"trigger":"axis","axisPointer":{"type":"cross","crossStyle":{"type":"dashed"},"lineStyle":"solid","shadowStyle":{"color":"rgba(150,150,150,0.3)","width":"auto","type":"default"}},"textStyle":{"color":"#fff"},"formatter":"function (params) {\n    var i;\n    var text;\n    if (params.seriesName === null || params.seriesName === \"\"){\n        if (params.value.length > 1) {\n            text = params.value[0];\n            for (i = 1; i < params.value.length; i++){\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.name + \" : \" + params.value;\n        }\n    } else {\n        if (params.value.length > 1) {\n            text = params.seriesName + \" :<br/>\" + params.value[0];\n            for (i = 1; i < params.value.length; i++) {\n                text += \" ,    \" + params.value[i];\n            }\n            return text;\n        } else {\n            return params.seriesName + \" :<br/>\"\n            + params.name + \" : \" + params.value;\n        }\n    }\n    }","backgroundColor":"rgba(0,0,0,0.7)"},"toolbox":{"show":true,"feature":{"mark":{"show":true},"dataZoom":{"show":true},"dataView":{"show":true,"readOnly":false},"magicType":{"show":false},"restore":{"show":true},"saveAsImage":{"show":true}},"x":"right","y":"top","orient":"horizontal"}},"evals":["tooltip.formatter"],"jsHooks":[]}</script>
+</div>
+<div id="non-decarsian-coordinate-system" class="section level2">
+<h2><span class="header-section-number">3.2</span> Non-decarsian Coordinate System</h2>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1><span class="header-section-number">4</span> References</h1>
+<p><a href="http://echarts.baidu.com/echarts2/doc/option.html#tooltip-line1~series-i(line).markPoint" class="uri">http://echarts.baidu.com/echarts2/doc/option.html#tooltip-line1~series-i(line).markPoint</a></p>
+</div>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+    // active menu
+    var href = window.location.pathname;
+    href = href.substr(href.lastIndexOf('/') + 1);
+    if (href === '') href = './';
+    $('a[href="' + href + '"]').parent().addClass('active');
+});
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+
+</body>
+</html>

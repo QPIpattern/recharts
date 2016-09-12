@@ -56,10 +56,10 @@ install_github("madlogos/recharts")
         1. [`setPolar`](Widget_02_Polar.html)
         1. [`setGrid`](Widget_03_Grid.html)
     1. Graph Elements
-        1. [`addMarkLine`](Widgets_11_markLine.html)
-        1. [`addMarkPoint`](Widgets_12_markPoint.html)
-        1. [`addGeoCoord`](Widgets_13_geoCoord.html)
-        1. [`addNameMap`](Widgets_14_nameMap.html)
+        1. [`addMarkLine`](Widget_11_markLine.html)
+        1. [`addMarkPoint`](Widget_12_markPoint.html)
+        1. [`addGeoCoord`](Widget_13_geoCoord.html)
+        1. [`addNameMap`](Widget_14_nameMap.html)
     1. Widgets
         1. [`setTitle`](Widget_21_Title.html)
         1. [`setLegend`](Widget_22_Legend.html)
@@ -75,7 +75,6 @@ install_github("madlogos/recharts")
     1. [`setTooltip`](Widget_31_Tooltip.html)
     1. [`setSymbols`](Widget_32_SymbolList.html)
     1. [`setTheme`](Widget_33_Theme.html)
-    1. [`relocWidget`](Widget_34_Relocation.html)
     
 1. Customization
 

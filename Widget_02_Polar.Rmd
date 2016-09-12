@@ -61,11 +61,9 @@ setPolar(chart, polarIndex = NULL, center = c("50%", "50%"),
 +-------------+----------------------------------------------------------------+
 | indicator   | List. The radar indicator and labels. The basic structure is `list(list(text='...',` `min=..., max=...,` `axisLabel=list(...)),` `list(text='...', min=..., max=...),` `list(...), ...)`. Default is empty.
 +-------------+----------------------------------------------------------------+
-| axisName    | Elipsis. 
+| axisName    | List. The name of the axis. You can set its `show`, `formatter`, `textStyle` features. Default `list(show=TRUE, formatter=NULL,` `textStyle= list(color='#333'))`.  |
 +-------------+----------------------------------------------------------------+
-| data        | List. The name of the axis. You can set its `show`, `formatter`, `textStyle` features. Default `list(show=TRUE, formatter=NULL,` `textStyle= list(color='#333'))`.  |
-+-------------+----------------------------------------------------------------+
-| ...         | Elipsis. 
+| ...         | Elipsis. |
 +-------------+----------------------------------------------------------------+
 
 

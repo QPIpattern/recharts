@@ -22,13 +22,6 @@ HTMLWidgets.widget({
         var BmapContainer = BMapExt.getEchartsContainer();
         instance = BMapExt.initEcharts(BmapContainer);
     }
-    if (typeof x.geoJSON != 'undefined') {
-        require('echarts/ext/params').params.newMap = {
-            getGeoJson: function (callback) {
-                $.getJSON(x.geoJSON, callback);
-            }
-        };
-    }
     var theme = 'default';
     if (typeof(x.theme) != 'undefined') { theme = x.theme; }
     if (theme === "default" || theme === "macarons" || theme === "infographic") {
