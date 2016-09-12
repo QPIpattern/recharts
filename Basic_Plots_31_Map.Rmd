@@ -406,19 +406,21 @@ g <- echartr(NULL, type='map_china') %>% addGeoCoord(coord) %>%
           smooth=TRUE, itemStyle=list(normal=list(
               color='#fff', borderWidth=1, borderColor='rgba(30,144,255,0.5)')))
 
-## by now, we have to manually edit the core chart style. 
-## Will be replaced by core chart editing functions
-g$x$series[[1]]$itemStyle$normal <- list(
-    borderColor='rgba(100,149,237,1)', borderWidth=0.5, areaStyle=list(
-        color='#1b1b1b'))
-g$x$series[[1]]$hoverable <- FALSE
+## modify itemStyle of the base map to align the areaStyle with bgColor and 
+## disable `hoverable`
+g <- g %>% setSeries(hoverable=FALSE, itemStyle=list(
+    normal=itemStyle(
+        borderColor='rgba(100,149,237,1)', borderWidth=0.5, 
+        areaStyle=areaStyle(color='#1b1b1b'))
+))
+
 g
 
 ## add markLines with values
 line.effect <- list(
     show=TRUE, scaleSize=1, period=30, color='#fff', shadowBlur=10)
-line.style <- list(normal=list(
-    borderWidth=1, lineStyle=list(type='solid', shadowBlur=10)))
+line.style <- list(normal=itemStyle(
+    borderWidth=1, lineStyle=lineStyle(type='solid', shadowBlur=10)))
 g1 <- g %>% 
     addML(series=c('北京Top10', '上海Top10', '广州Top10'), data=target, 
           smooth=TRUE, effect=line.effect, itemStyle=line.style)
@@ -427,8 +429,8 @@ g1
 ## add markPoints
 ## series better be 2, 3, 4 rather than the series names
 jsSymbolSize <- JS('function (v) {return 10+v/10;}')
-mp.style <- list(normal=list(label=list(show=FALSE)), 
-                 emphasis=list(label=list(position='top')))
+mp.style <- list(normal=itemStyle(label=labelStyle(show=FALSE)), 
+                 emphasis=itemStyle(label=labelStyle(position='top')))
 g2 <- g1 %>%
     addMP(series=2:4, data=target[,c("name2", "value", "series")],
           effect=list(show=TRUE), symbolSize=jsSymbolSize, 
