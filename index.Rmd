@@ -58,8 +58,6 @@ install_github("madlogos/recharts")
     1. Graph Elements
         1. [`addMarkLine`](Widget_11_markLine.html)
         1. [`addMarkPoint`](Widget_12_markPoint.html)
-        1. [`addGeoCoord`](Widget_13_geoCoord.html)
-        1. [`addNameMap`](Widget_14_nameMap.html)
     1. Widgets
         1. [`setTitle`](Widget_21_Title.html)
         1. [`setLegend`](Widget_22_Legend.html)
@@ -69,7 +67,7 @@ install_github("madlogos/recharts")
         1. [`setDataZoom`](Widget_26_DataZoom.html)
         1. [`setRoam`](Widget_27_RoamController.html)
     1. Feature Lists
-        1. [`setStyle`](setStyle.html)
+        1. [`aesStyle`](aesStyle.html)
 
 1. Aesthetic Configuration
     1. [`setTooltip`](Widget_31_Tooltip.html)
@@ -125,29 +123,31 @@ str(args(echartr))
 +===========+==================================================================+
 | **data**  | source data in the form of data.frame |
 +-----------+------------------------------------------------------------------+
-| **x**     | - Independent variable(s). One or more columns of `data`. Could be time, numeric or characters.        |
+|  x        | Independent variable(s). One or more columns of `data`. Could be time, numeric or characters.        |
+|           |
 |           | - In Cartesian coordinate system charts, `x` is linked with x-axis |
 |           | - In polar coordinate system charts, `x` var1 is linked with polar-axis, and `x` var2 is data series (linked with legends) |
 |           | - In other chart types, mono-coordinate system charts refer to Cartesian coordinat system examples, while multi-coordinates system charts refer to polar system examples.  |
 +-----------+------------------------------------------------------------------+
-|  **y**    | dependent variable(s). One or more columns of `data`. Always numeric. |
-+--------+---------------------------------------------------------------------+
-|**series** | - series variable. A column of `data` which is treated as factors.   |
+|  y        | dependent variable(s). One or more columns of `data`. Always numeric. |
++-----------+------------------------------------------------------------------+
+|  series   | series variable. A column of `data` which is treated as factors.   |
+|           |
 |           | - In Cartesian coordinate system charts, `series` is data series (linked with legends).   |
 |           | - In polar coordinate system charts, `series` is linked with polar systems. |
 |           | - In other chart types, mono-coordinate system charts refer to Cartesian coordinat system examples, while multi-coordinates system charts refer to polar system examples. |
 +-----------+------------------------------------------------------------------+
-|**weight** | weight variable used in bubble chart. |
+|  weight   | weight variable used in bubble chart. |
 +-----------+------------------------------------------------------------------+
-| **z**     | time variable. If `z` is assigned, a timeline widget will display. |
+|  z        | time variable. If `z` is assigned, a timeline widget will display. |
 +-----------+------------------------------------------------------------------+
-| **lat**   | latitude variable for map/heatmap. |
+|  lat      | latitude variable for map/heatmap. |
 +-----------+------------------------------------------------------------------+
-| **lng**   | longitude variable for map/heatmap. |
+|  lng      | longitude variable for map/heatmap. |
 +-----------+------------------------------------------------------------------+
-| **type**  | chart type. Default 'auto'. `type` as a vector is linked with `series`. |
+|  type     | chart type. Default 'auto'. `type` as a vector is linked with `series`. |
 +-----------+------------------------------------------------------------------+
-|**subtype**| chart subtype. Default NULL. `subtype` as a vector is also linked with `series`.  |
+| subtype   | chart subtype. Default NULL. `subtype` as a vector is also linked with `series`.  |
 +-----------+------------------------------------------------------------------+
 
 ### Supported Chart Types
@@ -204,7 +204,7 @@ Or mixed subtypes. Refer to 'subtype' column in `recharts:::validChartTypes`. Yo
 
 ```{r}
 echartr(d, carb, mean.mpg, gear, type='line', 
-        subtype=c('stack+smooth', 'stack+dotted', 'smooth+dashed')) %>%
+        subtype=c('stack + smooth', 'stack + dotted', 'smooth + dashed')) %>%
     setSymbols('emptycircle')
 ```
 
@@ -334,7 +334,8 @@ g %>% setSymbols(c('heart', 'star6'))
 You can combine all the steps using a pipe chain. If you are familiar with JS, you can embed JS fragments using `JS()` for better effects.
 
 ```{r}
-g %>% addMarkLine(data=data.frame(type='average', name1='Avg')) %>%
+g %>% setSeries(series=2, symbolSize=8, symbolRotate=30) %>% 
+    addMarkLine(data=data.frame(type='average', name1='Avg')) %>%
     addMarkPoint(series=1, data=data.frame(type='max', name='Max')) %>%
     setTitle('wt vs mpg', paste0('[Motor Trend](', link, ')'), 
                textStyle=list(color='red')) %>%
@@ -413,7 +414,7 @@ Apparently, all we did was to translate the JavaScript object in the [original e
 
 ## Modify the Echarts Object
 
-You can also yield an echarts object using `echartr` and then modify the object directly as you do to a S3 list, if you are familiar with echarts data structure.
+We can also yield an echarts object using `echartr` and then modify the object directly as we do to a S3 list, if we are familiar with echarts data structure.
 
 The following is the structure of the object `g` we producted by `echartr(mtcars, wt, mpg, factor(am, labels=c('Automatic', 'Mannual')))`.
 

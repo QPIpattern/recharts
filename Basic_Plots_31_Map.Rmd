@@ -47,13 +47,14 @@ echartr(ChinaGDP[ChinaGDP$Year==2014,], Prov, GDP, type="map_china_multi") %>%
 <tr><td>
 ```{r, echo=FALSE}
 worldgdp <- data.frame(
-    country=c('United States of America','China','Japan','Germany',
-              'United Kingdom','France','Brazil', 'Italy','India','Russia',
-              'Canada','Australia','South Korea','Spain','Mexico','Indonesia',
-              'Netherlands','Turkey','Saudi Arabia','Switzerland'),
-    GDP=c(17418925,10380380,4616335,3859547,2945146,2846889,2353025,2147952,
-          2049501,1857461,1788717,1444189,1416949,1406855,1282725,888648,866354,
-          806108,752459,712050))
+    country=c('United States of America', 'China', 'Japan', 'Germany',
+              'United Kingdom', 'France', 'Brazil', 'Italy', 'India','Russia',
+              'Canada', 'Australia', 'South Korea', 'Spain', 'Mexico', 
+              'Indonesia', 'Netherlands', 'Turkey', 'Saudi Arabia', 
+              'Switzerland'),
+    GDP=c(17418925, 10380380, 4616335, 3859547, 2945146, 2846889, 2353025, 
+          2147952, 2049501, 1857461, 1788717, 1444189, 1416949, 1406855, 1282725,
+          888648, 866354, 806108, 752459, 712050))
 echartr(worldgdp, country, GDP, type="map_world") %>%
     setDataRange(splitNumber=0, 
                  color=getColFromPal('rainbow')) %>%
@@ -183,13 +184,14 @@ If no `x[,2]` is assigned, the map does not differentiate data series.
 
 ```{r}
 worldgdp <- data.frame(
-    country=c('United States of America','China','Japan','Germany',
-              'United Kingdom','France','Brazil', 'Italy','India','Russia',
-              'Canada','Australia','South Korea','Spain','Mexico','Indonesia',
-              'Netherlands','Turkey','Saudi Arabia','Switzerland'),
-    GDP=c(17418925,10380380,4616335,3859547,2945146,2846889,2353025,2147952,
-          2049501,1857461,1788717,1444189,1416949,1406855,1282725,888648,866354,
-          806108,752459,712050))
+    country=c('United States of America', 'China', 'Japan', 'Germany',
+              'United Kingdom', 'France', 'Brazil', 'Italy', 'India','Russia',
+              'Canada', 'Australia', 'South Korea', 'Spain', 'Mexico', 
+              'Indonesia', 'Netherlands', 'Turkey', 'Saudi Arabia', 
+              'Switzerland'),
+    GDP=c(17418925, 10380380, 4616335, 3859547, 2945146, 2846889, 2353025, 
+          2147952, 2049501, 1857461, 1788717, 1444189, 1416949, 1406855, 1282725,
+          888648, 866354, 806108, 752459, 712050))
 echartr(worldgdp, country, GDP, type="map_world") %>%
     setTitle("World GDP Top 20, 2014")
 ```
@@ -263,9 +265,9 @@ echartr(worldgdp10, country, GDP, country, type='map_world',
 
 Then you can configure the widgets, add markLines and/or markPoints, fortify the chart.
 
-## Add/Override nameMap
+## Add/Overide nameMap
 
-Maybe you want to show the China province names in English. You can use `addNameMap` or `overrideNameMap` function.
+Maybe you want to show the China province names in English. You can use `addNameMap` or `overideNameMap` function.
 
 There is a preinstalled dataset **geoNameMap** listing some Chinese and English geographic names. 'LEVEL' is a number ranging from 0 to 3: 0 reprensents country, 1 reprensents province, 2 reprensents city, and, 3 reprensents county. 'FKEY' is foreign key of the parent level. E.g., 'China' is in the record with ID 31, so we can get all the China provinces by `geoNameMap[geoNameMap$FKEY==31,]`. 
 
@@ -273,18 +275,18 @@ There is a preinstalled dataset **geoNameMap** listing some Chinese and English 
 str(geoNameMap)
 ```
 
-So we prepare a two-column dictionary of the geographic names: Col 1 is the name in the source language, Col 2 is that in the target language.
+So we prepare a two-column dictionary of the geographic names: Col 1 is the name in the source language, Col 2 is that in the target language. That's the valid data structure `addNameMap` requires.
 
 ```{r}
 dict <- geoNameMap[geoNameMap$FKEY==31, c("CN", "EN")]
-echartr(NULL, type="map_china_multi") %>% addNameMap(dict, mode='override')
+echartr(NULL, type="map_china_multi") %>% addNameMap(dict, mode='overide')
 ```
 
-## Add/Override markLine
+## Add/Overide markLine
 
 ### `addMarkLine`
 
-Based on a base map, we can add markLines using `addMarkLine` (or `addML` for short) or `overrideMarkLine`.
+Based on a base map, we can add markLines using `addMarkLine` (or `addML` for short) or `overideMarkLine`.
 
 This instance makes use of another preinstalled dataset **flight**.
 
@@ -317,11 +319,11 @@ But the markLines are not shown yet. You have to append the longitudes and latit
 g %>% addGeoCoord(coord)
 ```
 
-## Add/Override markPoint
+## Add/Overide markPoint
 
 ### `addMarkPoint`
 
-Based on a base map, we can add markLines using `addMarkPoint` (or `addMP` for short) or `overrideMarkPoint`.
+Based on a base map, we can add markLines using `addMarkPoint` (or `addMP` for short) or `overideMarkPoint`.
 
 This instance makes use of another preinstalled dataset **chinapm25**.
 
@@ -357,6 +359,8 @@ g
 #### Pre-installed geoCoord dataset
 
 Although `recharts` can recognize most of the cities, there still might be points missing coordinates. Again, we need to define the geoCoord using `addGeoCoord`.
+
+`addGeoCoord` requires a data.frame with three columns in order: `name`, `longitude` and `latitude`. Pay attention to the order of `lng` and `lat`.
 
 ```{r}
 g %>% addGeoCoord(chinapm25[,c('name', 'lng', 'lat')]) %>% 
@@ -403,7 +407,7 @@ target$series <- paste0(target$name1, 'Top10')
 ## apply addGeoCoord, and add markLines without values
 g <- echartr(NULL, type='map_china') %>% addGeoCoord(coord) %>%
     addML(series=1, data=route, symbol=c('none', 'circle'), symbolSize=1, 
-          smooth=TRUE, itemStyle=list(normal=list(
+          smooth=TRUE, itemStyle=list(normal=itemStyle(
               color='#fff', borderWidth=1, borderColor='rgba(30,144,255,0.5)')))
 
 ## modify itemStyle of the base map to align the areaStyle with bgColor and 
@@ -453,7 +457,7 @@ g3 <- g3 %>% setLegend(pos=10, selected='上海Top10', textStyle=list(color='#ff
 g3
 ```
 
-## Add/Override heatMap
+## Add/Overide heatMap
 
 Let's make up a fictious heatmap dataset. The dataset must be comprised of `lng`, `lat` and `heat value`.
 
@@ -469,7 +473,7 @@ heatmap <- data.frame(matrix(unlist(heatmap), byrow=TRUE, ncol=3))
 str(heatmap)
 ```
 
-Then append/modify the heatmap to a base map using `addHeatmap` / `overrideHeatmap`.
+Then append/modify the heatmap to a base map using `addHeatmap` / `overideHeatmap`.
 
 ```{r}
 echartr(NULL, type="map_china") %>% addHeatmap(data=heatmap)
