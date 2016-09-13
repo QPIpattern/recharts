@@ -79,8 +79,6 @@ g2 %>% setTheme(width=400, height=300)
 </td></tr>
 </table>
 
-## Echarts without Timeline
-
 Initially legend is shown. Let's turn if off.
 ```{r}
 g1 %>% setLegend(show=FALSE)
@@ -117,9 +115,6 @@ g1 %>% setLegend(overideData=list(
     list(name='virginica', textStyle=textStyle(color='blue'))))
 ```
 
-## Echarts with Timeline
-
-For Echarts object with timeline, the legend widget is located in `chartr$x$options[[1]]`. And the usage is exactly the same with Echarts without timeline.
 
 # References
 

@@ -89,7 +89,7 @@ pred <- predict(lm, data.frame(Sepal.Width=c(2, 4.5)))
 
 We, respectively, add markLines of max, mean, min of data series 1 ('setosa'), 2 ('versicolor') and 3 ('virginica'). Then we addditionally add markLine of linear regression model.
 
-The fourth markLine calls a special data strucutre: a data.frame containing 'name1', 'value', 'xAxis1', 'yAxis1', 'xAxis2', and 'yAxis2'. This is only for Cartesian coordinate system.
+The fourth markLine calls a special data strucutre: a data.frame containing 'name1', 'value', 'xAxis1', 'yAxis1', 'xAxis2', and 'yAxis2'. This is the only acceptable form for Cartesian coordinate system.
 
 ```{r}
 g = echartr(iris, Sepal.Width, Petal.Width, Species) %>% 

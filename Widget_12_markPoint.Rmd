@@ -89,9 +89,9 @@ The example below is from [Scatterplot Manual](Basic_Plots_01_Scatterplot.html).
 
 We, respectively, add markPoints of max, min of data series 1 ('setosa') and 2 ('versicolor'). And we add another two markPoints with absolute position.
 
-The thrid markPoint calls a special data strucutre: a data.frame containing 'name', 'value', 'xAxis', 'yAxis'. This is only for Cartesian coordinate system.
+The thrid markPoint calls a special data strucutre: a data.frame containing 'name', 'value', 'xAxis', 'yAxis'. This is the only acceptable form for Cartesian coordinate system.
 
-The fourth markPoint calls a generic data structure which refer to absolute coodinates on the canvas.
+The fourth markPoint calls a generic data structure which refer to absolute coodinates on the canvas. However, it cannot be correctly parsed in Cartesian coordinate system, and hence is place at the zero coordinate point.
 
 ```{r}
 g = echartr(iris, Sepal.Width, Petal.Width, Species) %>% 
